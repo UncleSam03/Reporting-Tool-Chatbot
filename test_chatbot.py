@@ -69,7 +69,8 @@ def run_tests():
             print("=== CONVERSATION COMPLETED SUCCESSFULLY ===")
             print(f"Final State Answers: {json.dumps(res['state']['answers'], indent=2)}")
             
-            output_file = r"c:\Users\samuk\Desktop\Reporting Tool Chatbot\HFF SUPPORT GROUP REPORT FORM_Filled.docx"
+            import tempfile
+            output_file = os.path.join(tempfile.gettempdir(), "HFF_Support_Group_Report_Filled.docx")
             if os.path.exists(output_file):
                 print(f"\n✓ SUCCESS: Generated report file found at: {output_file}")
                 print(f"File size: {os.path.getsize(output_file)} bytes")

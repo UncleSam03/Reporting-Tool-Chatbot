@@ -6,8 +6,11 @@ from docx import Document
 app = Flask(__name__)
 
 # Constants
-TEMPLATE_PATH = r"c:\Users\samuk\Desktop\Reporting Tool Chatbot\HFF SUPPORT GROUP REPORTING TOOL.docx"
-OUTPUT_PATH = r"c:\Users\samuk\Desktop\Reporting Tool Chatbot\HFF SUPPORT GROUP REPORT FORM_Filled.docx"
+import tempfile
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+TEMPLATE_PATH = os.path.join(BASE_DIR, "HFF SUPPORT GROUP REPORTING TOOL.docx")
+OUTPUT_PATH = os.path.join(tempfile.gettempdir(), "HFF_Support_Group_Report_Filled.docx")
 
 # Conversational flow definition
 FLOW = [
