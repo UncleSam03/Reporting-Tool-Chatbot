@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HFF Chatbot Simulator - Antigravity</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #0B0E14;
+            --bg-card: #151A22;
+            --bg-input: #1E2530;
+            --primary: #00A884; /* WhatsApp Green */
+            --primary-hover: #00c49a;
+            --text-main: #F0F2F5;
+            --text-muted: #8696A0;
+            --border-color: #2F3B4E;
+            --bubble-incoming: #202C33;
+            --bubble-outgoing: #005C4B;
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --radius-sm: 8px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 168, 132, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(0, 92, 75, 0.05) 0%, transparent 40%);
+        }
+
+        header {
+            padding: 24px 40px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            backdrop-filter: blur(10px);
+            background: rgba(11, 14, 20, 0.8);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-title-container {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo-placeholder {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), #005C4B);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+            box-shadow: 0 0 15px rgba(0, 168, 132, 0.4);
+            color: white;
+        }
+
+        .header-text h1 {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .header-text p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            background-color: var(--bg-input);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 10px 20px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+
+        .btn:hover {
+            background-color: var(--border-color);
+            border-color: var(--text-muted);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 168, 132, 0.2);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background-color: var(--primary-hover);
+            border-color: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .pulse-glow {
+            animation: pulse-glow-anim 2s infinite;
+        }
+
+        @keyframes pulse-glow-anim {
+            0% {
+                box-shadow: 0 0 0 0 rgba(0, 168, 132, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(0, 168, 132, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 168, 132, 0);
+            }
+        }
+
+        main {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 460px 1fr;
+            gap: 40px;
+            max-width: 1440px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 30px 40px;
+            height: calc(100vh - 91px);
+        }
+
+        /* PHONE SIMULATOR CONTAINER */
+        .simulator-column {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .phone-frame {
+            width: 390px;
+            height: 760px;
+            border-radius: 40px;
+            background: #000;
+            padding: 12px;
+            border: 4px solid #2F3542;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.1);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Phone notch */
+        .phone-notch {
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 140px;
+            height: 25px;
+            background: #000;
+            border-bottom-left-radius: 18px;
+            border-bottom-right-radius: 18px;
+            z-index: 99;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .phone-speaker {
+            width: 40px;
+            height: 4px;
+            background: #333;
+            border-radius: 2px;
+            margin-bottom: 2px;
+        }
+
+        .phone-screen {
+            flex: 1;
+            border-radius: 30px;
+            overflow: hidden;
+            background-color: #0b141a; /* WhatsApp default chat background color */
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            /* Classic WhatsApp doodle wallpaper replacement - clean grid overlay */
+            background-image: 
+                linear-gradient(rgba(11, 20, 26, 0.96), rgba(11, 20, 26, 0.96)),
+                radial-gradient(rgba(0, 168, 132, 0.1) 1px, transparent 0);
+            background-size: 100% 100%, 20px 20px;
+        }
+
+        .phone-header {
+            background-color: #202c33;
+            padding: 34px 16px 12px 16px; /* Extra top padding for notch */
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+            z-index: 5;
+        }
+
+        .phone-back-arrow {
+            color: var(--primary);
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .phone-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #005c4b;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        .phone-contact-info {
+            flex: 1;
+        }
+
+        .phone-contact-name {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .phone-contact-status {
+            font-size: 11px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 1px;
+        }
+
+        .phone-contact-status::before {
+            content: '';
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background-color: var(--primary);
+            border-radius: 50%;
+        }
+
+        .chat-area {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            scroll-behavior: smooth;
+        }
+
+        /* Message Bubbles */
+        .msg {
+            max-width: 80%;
+            padding: 8px 12px;
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            line-height: 1.45;
+            position: relative;
+            animation: bubble-fade-in 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            word-wrap: break-word;
+            white-space: pre-wrap;
+        }
+
+        @keyframes bubble-fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(10px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .msg-incoming {
+            background-color: var(--bubble-incoming);
+            align-self: flex-start;
+            border-top-left-radius: 0;
+            color: var(--text-main);
+            border: 1px solid rgba(255,255,255,0.03);
+        }
+
+        .msg-outgoing {
+            background-color: var(--bubble-outgoing);
+            align-self: flex-end;
+            border-top-right-radius: 0;
+            color: #fff;
+        }
+
+        .msg-meta {
+            display: block;
+            text-align: right;
+            font-size: 10px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .msg-outgoing .msg-meta {
+            color: rgba(255,255,255,0.6);
+        }
+
+        /* Choice inputs panel at the bottom */
+        .interaction-panel {
+            background-color: #1f2c34;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 10;
+        }
+
+        .choice-tray {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .chip {
+            background-color: var(--bg-input);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .chip:hover {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* Checkbox lists panel */
+        .checkbox-flow-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 4px;
+            background: rgba(0,0,0,0.15);
+            border-radius: var(--radius-sm);
+        }
+
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            background: var(--bg-card);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            border: 1px solid transparent;
+            transition: var(--transition);
+        }
+
+        .checkbox-option:hover {
+            background: #1b2432;
+        }
+
+        .checkbox-option.selected {
+            border-color: var(--primary);
+            background: rgba(0, 168, 132, 0.08);
+        }
+
+        .checkbox-option input {
+            accent-color: var(--primary);
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Message input area */
+        .phone-input-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .phone-text-input {
+            flex: 1;
+            background-color: #2a3942;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 16px;
+            color: var(--text-main);
+            font-size: 14px;
+            outline: none;
+        }
+
+        .phone-text-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .phone-send-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .phone-send-btn:hover {
+            background-color: var(--primary-hover);
+            transform: scale(1.05);
+        }
+
+        .phone-send-btn svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+
+        /* DASHBOARD COLUMN */
+        .dashboard-column {
+            display: grid;
+            grid-template-rows: 1fr 280px;
+            gap: 30px;
+            height: 100%;
+        }
+
+        .dashboard-row-top {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .panel-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .panel-header {
+            padding: 16px 24px;
+            background-color: rgba(255,255,255,0.02);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .panel-header h2 {
+            font-size: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-main);
+        }
+
+        .panel-header .badge {
+            background-color: rgba(0, 168, 132, 0.15);
+            color: var(--primary);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .panel-body {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        /* Checklist styling */
+        .metric-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .metric-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            background: var(--bg-input);
+            border-left: 3px solid var(--border-color);
+            font-size: 13px;
+            transition: var(--transition);
+        }
+
+        .metric-item.filled {
+            border-left-color: var(--primary);
+            background: rgba(0, 168, 132, 0.03);
+        }
+
+        .metric-label {
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .metric-item.filled .metric-label {
+            color: var(--text-main);
+        }
+
+        .metric-val {
+            font-weight: 600;
+            color: var(--text-muted);
+            max-width: 60%;
+            text-align: right;
+            word-break: break-all;
+        }
+
+        .metric-item.filled .metric-val {
+            color: var(--primary);
+        }
+
+        /* JSON terminal editor */
+        .terminal-panel {
+            background-color: #080A0F;
+            border: 1px solid #1c2330;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: #abb2bf;
+            padding: 16px;
+            border-radius: var(--radius-sm);
+            overflow-y: auto;
+            flex: 1;
+            white-space: pre-wrap;
+            position: relative;
+        }
+
+        .terminal-panel::before {
+            content: "SESSION STATE OBJECT";
+            position: absolute;
+            top: 4px;
+            right: 8px;
+            font-size: 9px;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .json-key { color: #e06c75; }
+        .json-string { color: #98c379; }
+        .json-num { color: #d19a66; }
+        .json-boolean { color: #c678dd; }
+
+        /* Welcome overlay for simulator initialization */
+        .welcome-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px;
+            height: 100%;
+        }
+
+        .welcome-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .welcome-card h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .welcome-card p {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 24px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-title-container">
+            <div class="logo-placeholder">HF</div>
+            <div class="header-text">
+                <h1>HFF Reporting Chatbot Simulator</h1>
+                <p>Rule-Based WhatsApp Conversational Flow Prototype</p>
+            </div>
+        </div>
+        <div class="header-actions">
+            <button class="btn" id="btn-reset">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                Reset Session
+            </button>
+            <button class="btn btn-primary" id="btn-download" disabled>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                Download Word Document
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <!-- COLUMN 1: SMARTPHONE bezel & WHATSAPP CHAT -->
+        <div class="simulator-column">
+            <div class="phone-frame">
+                <div class="phone-notch">
+                    <div class="phone-speaker"></div>
+                </div>
+                <div class="phone-screen">
+                    <!-- WhatsApp Header -->
+                    <div class="phone-header">
+                        <div class="phone-back-arrow">←</div>
+                        <div class="phone-avatar">HF</div>
+                        <div class="phone-contact-info">
+                            <div class="phone-contact-name">HFF Support Group Bot</div>
+                            <div class="phone-contact-status">online</div>
+                        </div>
+                    </div>
+
+                    <!-- Scrollable Chat Bubble Area -->
+                    <div class="chat-area" id="chat-box">
+                        <!-- Messages loaded dynamically -->
+                    </div>
+
+                    <!-- Input / Choice Tray Panel -->
+                    <div class="interaction-panel">
+                        <!-- Choice Tray for quick replies -->
+                        <div class="choice-tray" id="choice-tray">
+                            <!-- Injected dynamically based on question type -->
+                        </div>
+
+                        <!-- Checkbox multi-select group -->
+                        <div class="checkbox-flow-panel" id="checkbox-panel" style="display: none;">
+                            <!-- Injected dynamically for multi_choice -->
+                        </div>
+                        <button class="btn btn-primary" id="btn-submit-checkboxes" style="display: none; padding: 6px; font-size: 12px;">
+                            Confirm Selected Options
+                        </button>
+
+                        <!-- Standard message input bar -->
+                        <div class="phone-input-bar">
+                            <input type="text" class="phone-text-input" id="message-input" placeholder="Type a message...">
+                            <button class="phone-send-btn" id="btn-send">
+                                <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- COLUMN 2: DEVELOPER DASHBOARD -->
+        <div class="dashboard-column">
+            <div class="dashboard-row-top">
+                <!-- Checklist / Form Fields progress card -->
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <h2>Report Fields Compilation</h2>
+                        <span class="badge" id="fields-badge">0 / 14 Filled</span>
+                    </div>
+                    <div class="panel-body" id="checklist-body">
+                        <div class="metric-list" id="fields-checklist">
+                            <!-- Filled dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live State Machine JSON Monitor -->
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <h2>JSON State Monitor</h2>
+                    </div>
+                    <div class="panel-body" style="display: flex; flex-direction: column;">
+                        <div class="terminal-panel" id="json-monitor">{}</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom welcome / informational card -->
+            <div class="panel-card">
+                <div class="panel-header">
+                    <h2>Chatbot Simulation Control Center</h2>
+                </div>
+                <div class="panel-body" style="display: flex; gap: 30px; align-items: center;">
+                    <div style="flex: 1;">
+                        <h4 style="margin-bottom: 8px; font-size: 14px;">How to Test the Chatbot Form:</h4>
+                        <ul style="font-size: 12px; color: var(--text-muted); list-style-position: inside; display: flex; flex-direction: column; gap: 6px;">
+                            <li>Step through each prompt on the phone simulator on the left.</li>
+                            <li>Try choosing <b>"No"</b> for <i>"Were you able to meet this month?"</i> to test branch skipping logic.</li>
+                            <li>For the <b>"Challenges Encountered"</b> section, click the interactive checkboxes to select multiple items, and see how the bot formats them!</li>
+                            <li>When the report compiles, the <b>"Download Word Document"</b> button will light up. Click it to get the filled-out original `.docx` file!</li>
+                        </ul>
+                    </div>
+                    <div style="width: 260px; display: flex; flex-direction: column; gap: 12px; align-items: center; background: rgba(0,0,0,0.15); padding: 16px; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+                        <div class="welcome-icon" style="font-size: 28px; margin: 0;">📝</div>
+                        <div style="text-align: center;">
+                            <p style="font-size: 12px; font-weight: 600; margin-bottom: 2px;">Report Template Loaded</p>
+                            <p style="font-size: 11px; color: var(--text-muted);">HFF SUPPORT GROUP REPORTING TOOL.docx</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const session_id = 'user_' + Math.random().toString(36).substring(2, 9);
+        const chatBox = document.getElementById('chat-box');
+        const messageInput = document.getElementById('message-input');
+        const sendBtn = document.getElementById('btn-send');
+        const resetBtn = document.getElementById('btn-reset');
+        const downloadBtn = document.getElementById('btn-download');
+        const choiceTray = document.getElementById('choice-tray');
+        const checkboxPanel = document.getElementById('checkbox-panel');
+        const submitCheckboxesBtn = document.getElementById('btn-submit-checkboxes');
+        const jsonMonitor = document.getElementById('json-monitor');
+        const fieldsChecklist = document.getElementById('fields-checklist');
+        const fieldsBadge = document.getElementById('fields-badge');
+
+        let currentStep = null;
+        let selectedCheckboxes = [];
+
+        // All possible fields that are mapped
+        const FORM_FIELDS_LABELS = {
+            "facilitator": "Facilitator Name",
+            "cell_num": "Cell Number",
+            "town_village": "Town/Village",
+            "location": "Specific Location",
+            "meeting_day": "Meeting Day",
+            "meeting_time": "Meeting Time",
+            "month": "Reporting Month",
+            "met_status": "Able to Meet?",
+            "attendees_male": "Male Attendees",
+            "attendees_female": "Female Attendees",
+            "lessons_interesting": "Lessons Interest",
+            "challenges": "Challenges Encountered",
+            "challenges_other": "Other Challenges",
+            "challenges_resolved": "How Challenges Resolved",
+            "challenges_unresolved": "Unresolved Ideas",
+            "add_testimony": "Include Testimony?",
+            "testimony_before": "Testimony: Life Before",
+            "testimony_changes": "Testimony: Observed Changes",
+            "testimony_affirmations_status": "Testimony: Affirmations Status",
+            "testimony_affirmations": "Testimony: Affirmations List"
+        };
+
+        // Initialize session on load
+        window.addEventListener('load', () => {
+            initChat();
+            buildChecklist();
+        });
+
+        async function initChat() {
+            chatBox.innerHTML = '';
+            appendBotMessage("Connecting to HFF server... Please wait.");
+            
+            try {
+                const response = await fetch('/api/reset', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ session_id })
+                });
+                const data = await response.json();
+                
+                chatBox.innerHTML = ''; // clear loading text
+                appendBotMessage(data.message);
+                updateState(data.step, data.state);
+            } catch (err) {
+                appendBotMessage("⚠️ Connection error. Please make sure python app.py is running on port 5000.");
+            }
+        }
+
+        // Reset click
+        resetBtn.addEventListener('click', () => {
+            initChat();
+            buildChecklist();
+            downloadBtn.disabled = true;
+            downloadBtn.classList.remove('pulse-glow');
+        });
+
+        // Download click
+        downloadBtn.addEventListener('click', () => {
+            window.location.href = '/api/download';
+        });
+
+        // Send click
+        sendBtn.addEventListener('click', sendMessage);
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        async function sendMessage(overrideText = null) {
+            let text = overrideText;
+            if (text === null) {
+                text = messageInput.value.trim();
+            }
+            if (!text) return;
+
+            appendUserMessage(text);
+            messageInput.value = '';
+            showLoadingDots();
+
+            try {
+                const response = await fetch('/api/message', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ session_id, message: text })
+                });
+                const data = await response.json();
+                removeLoadingDots();
+                appendBotMessage(data.message);
+                updateState(data.step, data.state);
+            } catch (err) {
+                removeLoadingDots();
+                appendBotMessage("⚠️ Error sending message. Please refresh or retry.");
+            }
+        }
+
+        function appendUserMessage(text) {
+            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const bubble = document.createElement('div');
+            bubble.className = 'msg msg-outgoing';
+            bubble.innerHTML = `${text}<span class="msg-meta">${time}</span>`;
+            chatBox.appendChild(bubble);
+            scrollToBottom();
+        }
+
+        function appendBotMessage(text) {
+            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const bubble = document.createElement('div');
+            bubble.className = 'msg msg-incoming';
+            
+            // Format bold text markdown **word** -> <b>word</b>
+            let formatted = text
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/\n/g, '<br>');
+                
+            bubble.innerHTML = `${formatted}<span class="msg-meta">${time}</span>`;
+            chatBox.appendChild(bubble);
+            scrollToBottom();
+        }
+
+        function showLoadingDots() {
+            const loader = document.createElement('div');
+            loader.className = 'msg msg-incoming chat-loader';
+            loader.id = 'chat-loader';
+            loader.innerHTML = `typing<span style="animation: blink 1.4s infinite both; font-weight:bold;">.</span><span style="animation: blink 1.4s infinite both 0.2s; font-weight:bold;">.</span><span style="animation: blink 1.4s infinite both 0.4s; font-weight:bold;">.</span>`;
+            chatBox.appendChild(loader);
+            scrollToBottom();
+        }
+
+        function removeLoadingDots() {
+            const loader = document.getElementById('chat-loader');
+            if (loader) loader.remove();
+        }
+
+        function scrollToBottom() {
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        // Update JSON and side dashboard panel
+        function updateState(step, state) {
+            if (!state) return;
+            currentStep = step;
+
+            // 1. Highlight JSON syntax
+            const highlightedJson = syntaxHighlight(JSON.stringify(state, null, 4));
+            jsonMonitor.innerHTML = highlightedJson;
+
+            // 2. Update Checklist panel
+            let filledCount = 0;
+            const keys = Object.keys(FORM_FIELDS_LABELS);
+            
+            keys.forEach(k => {
+                const itemEl = document.getElementById(`chk-${k}`);
+                if (!itemEl) return;
+                
+                const valEl = itemEl.querySelector('.metric-val');
+                
+                if (state.answers && state.answers[k] !== undefined) {
+                    let val = state.answers[k];
+                    if (Array.isArray(val)) {
+                        val = val.length > 0 ? val.join(', ') : 'None';
+                    }
+                    if (val === true || val === "Yes") {
+                        val = 'Yes';
+                    } else if (val === false || val === "No") {
+                        val = 'No';
+                    }
+                    
+                    valEl.textContent = val;
+                    itemEl.classList.add('filled');
+                    filledCount++;
+                } else {
+                    valEl.textContent = '—';
+                    itemEl.classList.remove('filled');
+                }
+            });
+
+            fieldsBadge.textContent = `${filledCount} / ${keys.length} Compiled`;
+
+            // 3. Enable Download button if completed
+            if (state.completed) {
+                downloadBtn.disabled = false;
+                downloadBtn.classList.add('pulse-glow');
+            }
+
+            // 4. Update Interactive Panel Elements (Pill choices / checkboxes)
+            choiceTray.innerHTML = '';
+            checkboxPanel.innerHTML = '';
+            checkboxPanel.style.display = 'none';
+            submitCheckboxesBtn.style.display = 'none';
+            messageInput.disabled = false;
+            sendBtn.disabled = false;
+            
+            if (state.completed) {
+                messageInput.disabled = true;
+                sendBtn.disabled = true;
+                return;
+            }
+
+            if (!step) return;
+
+            // If it's a choice question (True/False or Multiple Choice), render pill buttons
+            if (step.type === 'choice' && step.choices) {
+                step.choices.forEach((choice, index) => {
+                    const chip = document.createElement('div');
+                    chip.className = 'chip';
+                    chip.textContent = choice;
+                    chip.addEventListener('click', () => sendMessage(choice));
+                    choiceTray.appendChild(chip);
+                });
+            }
+
+            // If it's a multi_choice question (challenges checkbox), render custom checkboxes panel
+            if (step.type === 'multi_choice' && step.choices) {
+                checkboxPanel.style.display = 'flex';
+                submitCheckboxesBtn.style.display = 'block';
+                selectedCheckboxes = [];
+                
+                step.choices.forEach((choice, index) => {
+                    const label = document.createElement('label');
+                    label.className = 'checkbox-option';
+                    
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.value = index + 1;
+                    
+                    checkbox.addEventListener('change', () => {
+                        if (checkbox.checked) {
+                            label.classList.add('selected');
+                            selectedCheckboxes.push(index + 1);
+                        } else {
+                            label.classList.remove('selected');
+                            selectedCheckboxes = selectedCheckboxes.filter(i => i !== index + 1);
+                        }
+                    });
+
+                    label.appendChild(checkbox);
+                    label.appendChild(document.createTextNode(`${index + 1}. ${choice}`));
+                    checkboxPanel.appendChild(label);
+                });
+
+                // Set submit button action
+                submitCheckboxesBtn.onclick = () => {
+                    if (selectedCheckboxes.length === 0) {
+                        sendMessage("None");
+                    } else {
+                        sendMessage(selectedCheckboxes.join(', '));
+                    }
+                };
+            }
+        }
+
+        // Build side panel checklist fields
+        function buildChecklist() {
+            fieldsChecklist.innerHTML = '';
+            Object.keys(FORM_FIELDS_LABELS).forEach(k => {
+                const item = document.createElement('div');
+                item.className = 'metric-item';
+                item.id = `chk-${k}`;
+                item.innerHTML = `
+                    <span class="metric-label">${FORM_FIELDS_LABELS[k]}</span>
+                    <span class="metric-val">—</span>
+                `;
+                fieldsChecklist.appendChild(item);
+            });
+        }
+
+        // JSON color highlighting helper
+        function syntaxHighlight(json) {
+            json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?)/g, function (match) {
+                var cls = 'json-num';
+                if (/^"/.test(match)) {
+                    if (/:$/.test(match)) {
+                        cls = 'json-key';
+                    } else {
+                        cls = 'json-string';
+                    }
+                } else if (/true|false/.test(match)) {
+                    cls = 'json-boolean';
+                }
+                return '<span class="' + cls + '">' + match + '</span>';
+            });
+        }
+    </script>
+    
+    <style>
+        @keyframes blink {
+            0% { opacity: .2; }
+            20% { opacity: 1; }
+            100% { opacity: .2; }
+        }
+    </style>
+</body>
+</html>

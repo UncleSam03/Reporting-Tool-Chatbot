@@ -1,0 +1,15 @@
+# Python runtime
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Generated reports
+HFF SUPPORT GROUP REPORT FORM_Filled.docx
+
+# IDEs and environments
+.vscode/
+.idea/
+venv/
+env/
+.env
