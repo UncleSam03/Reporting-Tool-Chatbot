@@ -17,7 +17,21 @@ def get_client():
         return _client
     if not is_configured():
         return None
-    from supabase import create_client
+
+    import importlib
+    import sys
+
+    # Local supabase/ migrations folder can shadow the PyPI package
+    mod = sys.modules.get("supabase")
+    if mod is not None and not hasattr(mod, "create_client"):
+        del sys.modules["supabase"]
+
+    try:
+        create_client = importlib.import_module("supabase").create_client
+    except ImportError as e:
+        raise ImportError(
+            "Supabase Python client not installed. Run: pip install supabase"
+        ) from e
 
     _client = create_client(
         os.getenv("SUPABASE_URL"),
