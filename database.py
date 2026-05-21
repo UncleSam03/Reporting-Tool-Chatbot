@@ -4,8 +4,27 @@ import os
 
 DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "reports.db")
 
+
+def is_vercel():
+    """True when running on Vercel serverless (no persistent local disk)."""
+    return bool(os.getenv("VERCEL") or os.getenv("VERCEL_ENV"))
+
+
+def _supabase_configured():
+    try:
+        import supabase_db
+        return supabase_db.is_configured()
+    except Exception:
+        return False
+
+
 def init_db():
     """Initializes the SQLite database and creates the reports table if it doesn't exist."""
+    if is_vercel():
+        if not _supabase_configured():
+            print("[WARN] Vercel: set SUPABASE_URL and keys in project Environment Variables.")
+        return
+
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute("""
@@ -43,6 +62,23 @@ def save_report(session_id, answers):
     """
     Inserts a new completed monthly report or updates an existing one for the session.
     """
+    supabase_saved = False
+    try:
+        import supabase_db
+        if supabase_db.is_configured():
+            supabase_db.save_report(session_id, answers)
+            supabase_saved = True
+            print(f"[OK] Supabase: Saved report for session {session_id}")
+    except Exception as supa_err:
+        print(f"[WARN] Supabase sync failed: {supa_err}")
+
+    if is_vercel():
+        if not supabase_saved:
+            raise RuntimeError(
+                "Supabase is required on Vercel. Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY."
+            )
+        return
+
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     
@@ -110,14 +146,12 @@ def save_report(session_id, answers):
         """, fields)
         conn.commit()
         print(f"[OK] SQLite: Saved report data for session {session_id}")
-
-        try:
-            import supabase_db
-            if supabase_db.is_configured():
+        if not supabase_saved and _supabase_configured():
+            try:
+                import supabase_db
                 supabase_db.save_report(session_id, answers)
-                print(f"[OK] Supabase: Synced report for session {session_id}")
-        except Exception as supa_err:
-            print(f"[WARN] Supabase sync skipped: {supa_err}")
+            except Exception as supa_err:
+                print(f"[WARN] Supabase sync skipped: {supa_err}")
     except Exception as e:
         print(f"[ERROR] SQLite Error saving report: {e}")
     finally:
@@ -138,7 +172,11 @@ def _fetch_reports():
         if supabase_db.is_configured():
             return supabase_db.get_all_reports(), "supabase"
     except Exception as e:
-        print(f"[WARN] Supabase fetch fallback to SQLite: {e}")
+        print(f"[WARN] Supabase fetch failed: {e}")
+
+    if is_vercel():
+        return [], "supabase-required"
+
     return get_all_reports(), "sqlite"
 
 

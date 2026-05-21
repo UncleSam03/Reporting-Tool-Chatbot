@@ -312,6 +312,19 @@ def static_files(filename):
     return send_from_directory(os.path.join(BASE_DIR, "static"), filename)
 
 
+@app.route("/api/health")
+def health():
+    """Health check for Vercel and uptime monitors."""
+    on_vercel = bool(os.getenv("VERCEL") or os.getenv("VERCEL_ENV"))
+    supabase = bool(os.getenv("SUPABASE_URL") and os.getenv("SUPABASE_ANON_KEY"))
+    return jsonify({
+        "status": "ok",
+        "vercel": on_vercel,
+        "supabase_configured": supabase,
+        "dashboard_ready": supabase if on_vercel else True,
+    })
+
+
 @app.route("/api/config")
 def api_config():
     """Public Supabase keys for browser client (anon key only)."""

@@ -52,6 +52,12 @@ function showDataSource(source) {
         banner.classList.add("hidden");
         return;
     }
+    if (source === "supabase-required") {
+        banner.textContent =
+            "Supabase is required on Vercel. Add SUPABASE_URL and keys in Vercel Environment Variables, then run the SQL migration.";
+        banner.classList.remove("hidden");
+        return;
+    }
     banner.textContent = `Data source: ${source}. Add Supabase keys to .env for cloud sync.`;
     banner.classList.remove("hidden");
 }

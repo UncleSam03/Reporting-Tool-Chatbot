@@ -93,9 +93,15 @@ Copy `.env.example` to `.env` (never commit `.env`):
 
 ---
 
-## Deployment
+## Deployment (Vercel)
 
-The repo includes `vercel.json` for serverless Flask. For full SQLite/Word features, run locally or deploy to a platform with persistent storage.
+The app is configured for [Vercel](https://vercel.com) via `vercel.json` and `app.py`.
+
+**On Vercel you must set Supabase environment variables** (no persistent SQLite). See [VERCEL.md](VERCEL.md) for the full checklist.
+
+- Dashboard: `https://your-app.vercel.app/dashboard`
+- Health: `https://your-app.vercel.app/api/health`
+- Chatbot simulator: best run **locally** (serverless has no shared session memory)
 
 ---
 
