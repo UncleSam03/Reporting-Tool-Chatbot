@@ -1,0 +1,2 @@
+-- Optional seed data for local development (runs on supabase db reset)
+-- Example: copy rows from seed_db.py or insert test facilitators here.

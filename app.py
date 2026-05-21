@@ -1,14 +1,18 @@
 import os
 import json
-from flask import Flask, request, jsonify, send_file, render_template_string
+from flask import Flask, request, jsonify, send_file, render_template_string, send_from_directory
 from docx import Document
+from dotenv import load_dotenv
+import database
+
+load_dotenv()
 
 app = Flask(__name__)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Constants
 import tempfile
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 TEMPLATE_PATH = os.path.join(BASE_DIR, "HFF SUPPORT GROUP REPORTING TOOL.docx")
 OUTPUT_PATH = os.path.join(tempfile.gettempdir(), "HFF_Support_Group_Report_Filled.docx")
 
@@ -267,6 +271,35 @@ def fill_docx_report(answers):
     doc.save(OUTPUT_PATH)
     return OUTPUT_PATH
 
+@app.route("/dashboard")
+def dashboard():
+    try:
+        with open(os.path.join(BASE_DIR, "dashboard.html"), "r", encoding="utf-8") as f:
+            return render_template_string(f.read())
+    except Exception as e:
+        return f"Error loading dashboard.html: {str(e)}", 500
+
+
+@app.route("/static/<path:filename>")
+def static_files(filename):
+    return send_from_directory(os.path.join(BASE_DIR, "static"), filename)
+
+
+@app.route("/api/config")
+def api_config():
+    """Public Supabase keys for browser client (anon key only)."""
+    return jsonify({
+        "supabase_url": os.getenv("SUPABASE_URL", ""),
+        "supabase_anon_key": os.getenv("SUPABASE_ANON_KEY", ""),
+    })
+
+
+@app.route("/api/dashboard/metrics")
+def dashboard_metrics():
+    """Aggregated KPIs — Supabase when configured, else SQLite."""
+    return jsonify(database.get_dashboard_metrics())
+
+
 @app.route("/")
 def index():
     # We serve the frontend HTML using render_template_string
@@ -406,6 +439,7 @@ def process_message():
         # We are finished! Generate document.
         session["completed"] = True
         try:
+            database.save_report(session_id, session["answers"])
             fill_docx_report(session["answers"])
             msg = "🎉 Excellent! I have collected all the information and filled out your **HFF Support Group Report Form** successfully.\n\nI have generated the official Word Document for you. You can download it directly from the Developer Dashboard on the right!"
         except Exception as e:
@@ -423,6 +457,12 @@ def process_message():
         "step": serialize_step(next_step),
         "state": session
     })
+
+@app.route("/api/reports", methods=["GET"])
+def get_reports():
+    """Return all completed reports from the SQLite database as JSON."""
+    reports = database.get_all_reports()
+    return jsonify(reports)
 
 @app.route("/api/download")
 def download_report():

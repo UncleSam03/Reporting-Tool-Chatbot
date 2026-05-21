@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HFF Admin Dashboard Overview</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "primary-container": "#818cf8",
+                "on-primary-fixed": "#1e1b4b",
+                "secondary": "#6c6e7e",
+                "on-secondary-container": "#585a68",
+                "surface-container-lowest": "#f0f2f8",
+                "on-secondary-fixed": "#1a1b26",
+                "surface-container": "#e2e4ea",
+                "inverse-on-surface": "#e8eaf0",
+                "tertiary-fixed": "#ede9fe",
+                "on-secondary": "#ffffff",
+                "inverse-primary": "#a5b4fc",
+                "on-error": "#ffffff",
+                "on-tertiary-fixed": "#2e1065",
+                "surface-container-highest": "#d6d8de",
+                "on-secondary-fixed-variant": "#404252",
+                "error": "#dc2626",
+                "surface-container-high": "#dcdee4",
+                "tertiary-fixed-dim": "#c4b5fd",
+                "primary-fixed-dim": "#a5b4fc",
+                "on-error-container": "#991b1b",
+                "surface": "#e8eaf0",
+                "on-tertiary-fixed-variant": "#5b21b6",
+                "surface-dim": "#d4d6dc",
+                "surface-container-low": "#e5e7ed",
+                "on-surface-variant": "#585a68",
+                "on-surface": "#2e3040",
+                "on-primary": "#ffffff",
+                "tertiary": "#7c3aed",
+                "secondary-fixed-dim": "#b8baca",
+                "surface-variant": "#dcdee4",
+                "on-tertiary-container": "#3b1f63",
+                "primary-fixed": "#e0e2ff",
+                "primary": "#6366f1",
+                "outline-variant": "#d0d2dc",
+                "inverse-surface": "#2e3040",
+                "error-container": "#fee2e2",
+                "background": "#e8eaf0",
+                "on-tertiary": "#ffffff",
+                "tertiary-container": "#a78bfa",
+                "on-primary-fixed-variant": "#4338ca",
+                "secondary-fixed": "#d8dae6",
+                "surface-bright": "#edeef4",
+                "secondary-container": "#d8dae6",
+                "outline": "#8a8c9a",
+                "on-primary-container": "#e0e2ff",
+                "surface-tint": "#6366f1",
+                "on-background": "#2e3040",
+                "status-success": "#2D6A4F"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.5rem",
+                "lg": "1rem",
+                "xl": "1.5rem",
+                "full": "9999px"
+        },
+        "spacing": {
+                "base": "8px",
+                "margin-desktop": "48px",
+                "gutter": "24px",
+                "margin-mobile": "16px",
+                "container-max": "1280px"
+        },
+        "fontFamily": {
+                "headline": ["Plus Jakarta Sans"],
+                "display": ["Plus Jakarta Sans"],
+                "body": ["Plus Jakarta Sans"],
+                "label": ["Plus Jakarta Sans"]
+        },
+        "fontSize": {
+                "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                "data-display": ["20px", {"lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}]
+        }
+      }
+    }
+  }
+</script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .filled-icon {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        /* Neomorphic Styles */
+        .neo-extruded {
+            background: #e8eaf0;
+            box-shadow: 6px 6px 12px #c5c7cc, -6px -6px 12px #ffffff;
+        }
+        .neo-extruded-sm {
+            background: #e8eaf0;
+            box-shadow: 3px 3px 6px #c5c7cc, -3px -3px 6px #ffffff;
+        }
+        .neo-pressed {
+            background: #e8eaf0;
+            box-shadow: inset 4px 4px 8px #c5c7cc, inset -4px -4px 8px #ffffff;
+        }
+        
+        /* Tabular lining figures for numbers */
+        .tabular-nums {
+            font-variant-numeric: tabular-nums;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body min-h-screen flex">
+<!-- SideNavBar (from JSON) -->
+<nav class="h-screen w-64 fixed left-0 top-0 bg-surface z-50 flex flex-col h-full py-base">
+<div class="px-6 py-4 flex flex-col mb-4">
+<div class="text-headline-md font-headline font-bold text-primary">HFF Reporting</div>
+<div class="text-label-sm font-label text-on-surface-variant mt-1">Admin Tool</div>
+</div>
+<ul class="flex-1 space-y-3 mt-4 px-4">
+<!-- Active Tab -->
+<li>
+<a class="neo-pressed text-primary font-bold flex items-center px-4 py-3 rounded-xl font-label text-label-md transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="dashboard">dashboard</span>
+                    Dashboard Overview
+                </a>
+</li>
+<!-- Inactive Tabs -->
+<li>
+<a class="text-on-surface hover:text-primary hover:neo-extruded-sm flex items-center px-4 py-3 rounded-xl font-label text-label-md transition-all duration-200" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="analytics">analytics</span>
+                    Group Metrics
+                </a>
+</li>
+<li>
+<a class="text-on-surface hover:text-primary hover:neo-extruded-sm flex items-center px-4 py-3 rounded-xl font-label text-label-md transition-all duration-200" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="volunteer_activism">volunteer_activism</span>
+                    Testimonies &amp; Impact
+                </a>
+</li>
+<li>
+<a class="text-on-surface hover:text-primary hover:neo-extruded-sm flex items-center px-4 py-3 rounded-xl font-label text-label-md transition-all duration-200" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="psychology">psychology</span>
+                    Qualitative Analysis
+                </a>
+</li>
+<li>
+<a class="text-on-surface hover:text-primary hover:neo-extruded-sm flex items-center px-4 py-3 rounded-xl font-label text-label-md transition-all duration-200" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="settings_suggest">settings_suggest</span>
+                    Settings/Exports
+                </a>
+</li>
+</ul>
+<div class="p-4 mt-auto">
+<button class="w-full neo-extruded text-primary font-label text-label-md font-semibold py-3 px-4 rounded-xl hover:neo-pressed transition-all flex items-center justify-center">
+<span class="material-symbols-outlined mr-2 text-sm">add</span>
+                New Report
+            </button>
+</div>
+</nav>
+<!-- Main Content Wrapper -->
+<div class="flex-1 ml-64 flex flex-col min-h-screen">
+<!-- TopAppBar (from JSON) -->
+<header class="bg-surface docked full-width top-0 sticky z-40 flex justify-between items-center px-margin-desktop h-20 w-full mb-6">
+<div class="text-headline-md font-headline font-semibold text-primary">
+                Support Group Reporting
+            </div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface neo-extruded hover:neo-pressed transition-all p-2.5 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
+</button>
+<button class="text-on-surface neo-extruded hover:neo-pressed transition-all p-2.5 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="filter_alt">filter_alt</span>
+</button>
+<button class="text-on-surface neo-extruded hover:neo-pressed transition-all p-2.5 rounded-full flex items-center justify-center relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<div class="w-10 h-10 rounded-full neo-extruded overflow-hidden ml-4">
+<!-- Placeholder for Avatar -->
+<div class="w-full h-full flex items-center justify-center text-primary text-sm font-bold">AU</div>
+</div>
+</div>
+</header>
+<!-- Scrollable Canvas -->
+<main class="flex-1 px-margin-desktop pb-margin-desktop bg-surface max-w-container-max mx-auto w-full">
+<div class="mb-8 flex justify-between items-end">
+<div>
+<h1 class="text-headline-lg font-headline text-on-surface mb-2">Dashboard Overview</h1>
+<p class="text-body-md font-body text-on-surface-variant">High-level metrics and qualitative insights across all support groups.</p>
+</div>
+<div class="flex gap-3">
+<span class="inline-flex items-center gap-2 text-label-sm font-label text-on-surface-variant neo-pressed px-4 py-2 rounded-xl">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span>
+                        Q3 2024
+                    </span>
+</div>
+</div>
+<!-- Section A: KPIs -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter mb-8">
+<!-- KPI 1 -->
+<div class="neo-extruded rounded-xl p-6 flex flex-col justify-between h-full">
+<div class="flex justify-between items-start mb-4">
+<span class="text-label-md font-label text-on-surface-variant">Total Active Groups</span>
+<div class="p-2 neo-pressed rounded-full text-primary">
+<span class="material-symbols-outlined text-[20px]">groups</span>
+</div>
+</div>
+<div>
+<div class="text-headline-xl font-headline text-primary tabular-nums mb-1">42</div>
+<div class="text-label-sm font-label text-status-success flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span>
+                            +3 from last month
+                        </div>
+</div>
+</div>
+<!-- KPI 2 -->
+<div class="neo-extruded rounded-xl p-6 flex flex-col justify-between h-full">
+<div class="flex justify-between items-start mb-4">
+<span class="text-label-md font-label text-on-surface-variant">Total Attendance</span>
+<div class="p-2 neo-pressed rounded-full text-primary">
+<span class="material-symbols-outlined text-[20px]">how_to_reg</span>
+</div>
+</div>
+<div>
+<div class="text-headline-xl font-headline text-primary tabular-nums mb-1">1,284</div>
+<div class="flex gap-3 text-label-sm font-label">
+<span class="text-secondary font-medium">512 Male</span>
+<span class="text-primary font-medium">772 Female</span>
+</div>
+</div>
+</div>
+<!-- KPI 3 -->
+<div class="neo-extruded rounded-xl p-6 flex flex-col justify-between h-full">
+<div class="flex justify-between items-start mb-4">
+<span class="text-label-md font-label text-on-surface-variant">Meeting Success Rate</span>
+<div class="p-2 neo-pressed rounded-full text-primary">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+</div>
+</div>
+<div>
+<div class="text-headline-xl font-headline text-primary tabular-nums mb-1">94%</div>
+<div class="w-full neo-pressed rounded-full h-3 mt-3">
+<div class="bg-primary h-3 rounded-full" style="width: 94%"></div>
+</div>
+</div>
+</div>
+<!-- KPI 4 -->
+<div class="neo-extruded rounded-xl p-6 flex flex-col justify-between h-full">
+<div class="flex justify-between items-start mb-4">
+<span class="text-label-md font-label text-on-surface-variant">Active Locations</span>
+<div class="p-2 neo-pressed rounded-full text-primary">
+<span class="material-symbols-outlined text-[20px]">location_on</span>
+</div>
+</div>
+<div>
+<div class="text-headline-xl font-headline text-primary tabular-nums mb-1">18</div>
+<div class="text-label-sm font-label text-on-surface-variant">
+                            Towns/Villages
+                        </div>
+</div>
+</div>
+</section>
+</main>
+</div>
+</body></html>

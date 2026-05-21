@@ -632,6 +632,164 @@
             line-height: 1.5;
             margin-bottom: 24px;
         }
+
+        /* ADMIN DASHBOARD STYLES */
+        .admin-dashboard-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .stat-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-card-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .stat-card-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .stat-card-desc {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .dashboard-row-bottom {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 30px;
+            min-height: 400px;
+        }
+
+        .challenges-chart-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .challenge-chart-item {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .challenge-chart-label {
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .challenge-chart-bar-bg {
+            height: 8px;
+            background: var(--bg-input);
+            border-radius: 4px;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .challenge-chart-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--primary-hover));
+            border-radius: 4px;
+            width: 0%;
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+            background: var(--bg-input);
+        }
+
+        .reports-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        .reports-table th {
+            background-color: rgba(255,255,255,0.02);
+            color: var(--text-main);
+            padding: 14px 18px;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border-color);
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+        }
+
+        .reports-table td {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-main);
+        }
+
+        .reports-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .reports-table tr:hover td {
+            background-color: rgba(255,255,255,0.01);
+        }
+
+        .table-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .table-badge-yes {
+            background-color: rgba(0, 168, 132, 0.15);
+            color: var(--primary);
+        }
+
+        .table-badge-no {
+            background-color: rgba(239, 83, 80, 0.15);
+            color: #ef5350;
+        }
+        
+        .empty-table-state {
+            padding: 60px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
     </style>
 </head>
 <body>
@@ -645,6 +803,13 @@
             </div>
         </div>
         <div class="header-actions">
+            <a class="btn" href="/dashboard" style="text-decoration:none;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="17" y1="9" x2="9" y2="9"/><line x1="17" y1="15" x2="9" y2="15"/></svg>
+                Admin Dashboard
+            </a>
+            <button class="btn" id="btn-toggle-dashboard" style="display:none;">
+                Admin Dashboard
+            </button>
             <button class="btn" id="btn-reset">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
                 Reset Session
@@ -656,103 +821,177 @@
         </div>
     </header>
 
-    <main>
-        <!-- COLUMN 1: SMARTPHONE bezel & WHATSAPP CHAT -->
-        <div class="simulator-column">
-            <div class="phone-frame">
-                <div class="phone-notch">
-                    <div class="phone-speaker"></div>
-                </div>
-                <div class="phone-screen">
-                    <!-- WhatsApp Header -->
-                    <div class="phone-header">
-                        <div class="phone-back-arrow">←</div>
-                        <div class="phone-avatar">HF</div>
-                        <div class="phone-contact-info">
-                            <div class="phone-contact-name">HFF Support Group Bot</div>
-                            <div class="phone-contact-status">online</div>
-                        </div>
+    <main style="max-width: 1440px; width: 100%; margin: 0 auto; padding: 30px 40px; height: calc(100vh - 91px); overflow: hidden; display: flex; flex-direction: column;">
+        <!-- SIMULATOR VIEW (Default) -->
+        <div id="simulator-view" style="display: grid; grid-template-columns: 460px 1fr; gap: 40px; width: 100%; height: 100%;">
+            <!-- COLUMN 1: SMARTPHONE bezel & WHATSAPP CHAT -->
+            <div class="simulator-column">
+                <div class="phone-frame">
+                    <div class="phone-notch">
+                        <div class="phone-speaker"></div>
                     </div>
-
-                    <!-- Scrollable Chat Bubble Area -->
-                    <div class="chat-area" id="chat-box">
-                        <!-- Messages loaded dynamically -->
-                    </div>
-
-                    <!-- Input / Choice Tray Panel -->
-                    <div class="interaction-panel">
-                        <!-- Choice Tray for quick replies -->
-                        <div class="choice-tray" id="choice-tray">
-                            <!-- Injected dynamically based on question type -->
+                    <div class="phone-screen">
+                        <!-- WhatsApp Header -->
+                        <div class="phone-header">
+                            <div class="phone-back-arrow">←</div>
+                            <div class="phone-avatar">HF</div>
+                            <div class="phone-contact-info">
+                                <div class="phone-contact-name">HFF Support Group Bot</div>
+                                <div class="phone-contact-status">online</div>
+                            </div>
                         </div>
 
-                        <!-- Checkbox multi-select group -->
-                        <div class="checkbox-flow-panel" id="checkbox-panel" style="display: none;">
-                            <!-- Injected dynamically for multi_choice -->
+                        <!-- Scrollable Chat Bubble Area -->
+                        <div class="chat-area" id="chat-box">
+                            <!-- Messages loaded dynamically -->
                         </div>
-                        <button class="btn btn-primary" id="btn-submit-checkboxes" style="display: none; padding: 6px; font-size: 12px;">
-                            Confirm Selected Options
-                        </button>
 
-                        <!-- Standard message input bar -->
-                        <div class="phone-input-bar">
-                            <input type="text" class="phone-text-input" id="message-input" placeholder="Type a message...">
-                            <button class="phone-send-btn" id="btn-send">
-                                <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+                        <!-- Input / Choice Tray Panel -->
+                        <div class="interaction-panel">
+                            <!-- Choice Tray for quick replies -->
+                            <div class="choice-tray" id="choice-tray">
+                                <!-- Injected dynamically based on question type -->
+                            </div>
+
+                            <!-- Checkbox multi-select group -->
+                            <div class="checkbox-flow-panel" id="checkbox-panel" style="display: none;">
+                                <!-- Injected dynamically for multi_choice -->
+                            </div>
+                            <button class="btn btn-primary" id="btn-submit-checkboxes" style="display: none; padding: 6px; font-size: 12px;">
+                                Confirm Selected Options
                             </button>
+
+                            <!-- Standard message input bar -->
+                            <div class="phone-input-bar">
+                                <input type="text" class="phone-text-input" id="message-input" placeholder="Type a message...">
+                                <button class="phone-send-btn" id="btn-send">
+                                    <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COLUMN 2: DEVELOPER DASHBOARD -->
+            <div class="dashboard-column">
+                <div class="dashboard-row-top">
+                    <!-- Checklist / Form Fields progress card -->
+                    <div class="panel-card">
+                        <div class="panel-header">
+                            <h2>Report Fields Compilation</h2>
+                            <span class="badge" id="fields-badge">0 / 14 Filled</span>
+                        </div>
+                        <div class="panel-body" id="checklist-body">
+                            <div class="metric-list" id="fields-checklist">
+                                <!-- Filled dynamically -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Live State Machine JSON Monitor -->
+                    <div class="panel-card">
+                        <div class="panel-header">
+                            <h2>JSON State Monitor</h2>
+                        </div>
+                        <div class="panel-body" style="display: flex; flex-direction: column;">
+                            <div class="terminal-panel" id="json-monitor">{}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom welcome / informational card -->
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <h2>Chatbot Simulation Control Center</h2>
+                    </div>
+                    <div class="panel-body" style="display: flex; gap: 30px; align-items: center;">
+                        <div style="flex: 1;">
+                            <h4 style="margin-bottom: 8px; font-size: 14px;">How to Test the Chatbot Form:</h4>
+                            <ul style="font-size: 12px; color: var(--text-muted); list-style-position: inside; display: flex; flex-direction: column; gap: 6px;">
+                                <li>Step through each prompt on the phone simulator on the left.</li>
+                                <li>Try choosing <b>"No"</b> for <i>"Were you able to meet this month?"</i> to test branch skipping logic.</li>
+                                <li>For the <b>"Challenges Encountered"</b> section, click the interactive checkboxes to select multiple items, and see how the bot formats them!</li>
+                                <li>When the report compiles, the <b>"Download Word Document"</b> button will light up. Click it to get the filled-out original `.docx` file!</li>
+                            </ul>
+                        </div>
+                        <div style="width: 260px; display: flex; flex-direction: column; gap: 12px; align-items: center; background: rgba(0,0,0,0.15); padding: 16px; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+                            <div class="welcome-icon" style="font-size: 28px; margin: 0;">📝</div>
+                            <div style="text-align: center;">
+                                <p style="font-size: 12px; font-weight: 600; margin-bottom: 2px;">Report Template Loaded</p>
+                                <p style="font-size: 11px; color: var(--text-muted);">HFF SUPPORT GROUP REPORTING TOOL.docx</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- COLUMN 2: DEVELOPER DASHBOARD -->
-        <div class="dashboard-column">
-            <div class="dashboard-row-top">
-                <!-- Checklist / Form Fields progress card -->
-                <div class="panel-card">
-                    <div class="panel-header">
-                        <h2>Report Fields Compilation</h2>
-                        <span class="badge" id="fields-badge">0 / 14 Filled</span>
+        <!-- ADMIN ANALYTICS VIEW -->
+        <div id="admin-view" style="display: none; width: 100%; height: 100%; flex-direction: column; gap: 24px; overflow: hidden;">
+            <div class="admin-dashboard-container">
+                <!-- Top Row: Stats Overview -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-card-title">Total Reports</span>
+                        <span class="stat-card-value" id="stat-total-reports">0</span>
+                        <span class="stat-card-desc">Submitted across all groups</span>
                     </div>
-                    <div class="panel-body" id="checklist-body">
-                        <div class="metric-list" id="fields-checklist">
-                            <!-- Filled dynamically -->
+                    <div class="stat-card">
+                        <span class="stat-card-title">Meetings Held</span>
+                        <span class="stat-card-value" id="stat-meetings-held">0</span>
+                        <span class="stat-card-desc" id="stat-meetings-held-pct">0% Success Rate</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-card-title">Total Attendees</span>
+                        <span class="stat-card-value" id="stat-total-attendees">0</span>
+                        <span class="stat-card-desc" id="stat-attendees-split">0 Male / 0 Female</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-card-title">Impacted Areas</span>
+                        <span class="stat-card-value" id="stat-unique-locations">0</span>
+                        <span class="stat-card-desc">Unique Towns & Villages</span>
+                    </div>
+                </div>
+
+                <!-- Bottom Row: Table & Chart -->
+                <div class="dashboard-row-bottom">
+                    <!-- Left: Challenges Distribution -->
+                    <div class="panel-card">
+                        <div class="panel-header">
+                            <h2>Challenges Encountered</h2>
+                        </div>
+                        <div class="panel-body" style="overflow-y: auto;">
+                            <div class="challenges-chart-list" id="challenges-distribution-list">
+                                <!-- Rendered dynamically -->
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Live State Machine JSON Monitor -->
-                <div class="panel-card">
-                    <div class="panel-header">
-                        <h2>JSON State Monitor</h2>
-                    </div>
-                    <div class="panel-body" style="display: flex; flex-direction: column;">
-                        <div class="terminal-panel" id="json-monitor">{}</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Bottom welcome / informational card -->
-            <div class="panel-card">
-                <div class="panel-header">
-                    <h2>Chatbot Simulation Control Center</h2>
-                </div>
-                <div class="panel-body" style="display: flex; gap: 30px; align-items: center;">
-                    <div style="flex: 1;">
-                        <h4 style="margin-bottom: 8px; font-size: 14px;">How to Test the Chatbot Form:</h4>
-                        <ul style="font-size: 12px; color: var(--text-muted); list-style-position: inside; display: flex; flex-direction: column; gap: 6px;">
-                            <li>Step through each prompt on the phone simulator on the left.</li>
-                            <li>Try choosing <b>"No"</b> for <i>"Were you able to meet this month?"</i> to test branch skipping logic.</li>
-                            <li>For the <b>"Challenges Encountered"</b> section, click the interactive checkboxes to select multiple items, and see how the bot formats them!</li>
-                            <li>When the report compiles, the <b>"Download Word Document"</b> button will light up. Click it to get the filled-out original `.docx` file!</li>
-                        </ul>
-                    </div>
-                    <div style="width: 260px; display: flex; flex-direction: column; gap: 12px; align-items: center; background: rgba(0,0,0,0.15); padding: 16px; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
-                        <div class="welcome-icon" style="font-size: 28px; margin: 0;">📝</div>
-                        <div style="text-align: center;">
-                            <p style="font-size: 12px; font-weight: 600; margin-bottom: 2px;">Report Template Loaded</p>
-                            <p style="font-size: 11px; color: var(--text-muted);">HFF SUPPORT GROUP REPORTING TOOL.docx</p>
+                    <!-- Right: Reports Data Table -->
+                    <div class="panel-card" style="height: 100%; display: flex; flex-direction: column;">
+                        <div class="panel-header">
+                            <h2>Submitted Monthly Reports Log</h2>
+                        </div>
+                        <div class="panel-body" style="padding: 0; overflow-y: auto; flex: 1;">
+                            <div class="table-wrapper">
+                                <table class="reports-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Date Submitted</th>
+                                            <th>Facilitator</th>
+                                            <th>Town/Village</th>
+                                            <th>Month</th>
+                                            <th>Met Status</th>
+                                            <th>Total Attendees</th>
+                                            <th>Testimony?</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="reports-table-body">
+                                        <!-- Rendered dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1061,6 +1300,169 @@
                 }
                 return '<span class="' + cls + '">' + match + '</span>';
             });
+        }
+
+        // --- ADMIN ANALYTICS DASHBOARD ROUTING & LOGIC ---
+        const toggleDashboardBtn = document.getElementById('btn-toggle-dashboard');
+        const simulatorView = document.getElementById('simulator-view');
+        const adminView = document.getElementById('admin-view');
+        let currentView = 'simulator';
+
+        toggleDashboardBtn.addEventListener('click', () => {
+            if (currentView === 'simulator') {
+                currentView = 'admin';
+                toggleDashboardBtn.innerHTML = `
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><path d="M9 3v18"/></svg>
+                    Back to Simulator
+                `;
+                simulatorView.style.display = 'none';
+                adminView.style.display = 'flex';
+                loadReportsDashboard();
+            } else {
+                currentView = 'simulator';
+                toggleDashboardBtn.innerHTML = `
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="17" y1="9" x2="9" y2="9"/><line x1="17" y1="15" x2="9" y2="15"/></svg>
+                    Admin Dashboard
+                `;
+                simulatorView.style.display = 'grid';
+                adminView.style.display = 'none';
+            }
+        });
+
+        async function loadReportsDashboard() {
+            const tableBody = document.getElementById('reports-table-body');
+            tableBody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:40px; color:var(--text-muted);">Loading database reports...</td></tr>`;
+            
+            try {
+                const response = await fetch('/api/reports');
+                const reports = await response.json();
+                
+                if (!reports || reports.length === 0) {
+                    tableBody.innerHTML = `
+                        <tr>
+                            <td colspan="7">
+                                <div class="empty-table-state">
+                                    <div style="font-size:32px;">📭</div>
+                                    <div style="font-weight:600; color:var(--text-main);">No Completed Reports Yet</div>
+                                    <div style="font-size:12px; max-width:350px;">Complete a reporting cycle in the WhatsApp Simulator or live on WhatsApp to populate the SQLite database records!</div>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                    
+                    document.getElementById('stat-total-reports').textContent = '0';
+                    document.getElementById('stat-meetings-held').textContent = '0';
+                    document.getElementById('stat-meetings-held-pct').textContent = '0% Success';
+                    document.getElementById('stat-total-attendees').textContent = '0';
+                    document.getElementById('stat-attendees-split').textContent = '0 Male / 0 Female';
+                    document.getElementById('stat-unique-locations').textContent = '0';
+                    document.getElementById('challenges-distribution-list').innerHTML = `<div style="text-align:center; color:var(--text-muted); font-size:12px; padding:20px;">No challenge statistics available.</div>`;
+                    return;
+                }
+                
+                tableBody.innerHTML = '';
+                let totalMale = 0;
+                let totalFemale = 0;
+                let meetingsHeld = 0;
+                const uniqueLocations = new Set();
+                const challengeCounts = {};
+                
+                reports.forEach(report => {
+                    totalMale += report.attendees_male || 0;
+                    totalFemale += report.attendees_female || 0;
+                    if (report.met_status === 'Yes') {
+                        meetingsHeld++;
+                    }
+                    if (report.town_village) {
+                        uniqueLocations.add(report.town_village.trim().toLowerCase());
+                    }
+                    
+                    const chal = report.challenges;
+                    if (Array.isArray(chal)) {
+                        chal.forEach(c => {
+                            challengeCounts[c] = (challengeCounts[c] || 0) + 1;
+                        });
+                    }
+                    
+                    const tr = document.createElement('tr');
+                    const formattedDate = new Date(report.created_at).toLocaleDateString([], {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                    
+                    const totalAttendees = (report.attendees_male || 0) + (report.attendees_female || 0);
+                    const statusBadge = report.met_status === 'Yes' 
+                        ? `<span class="table-badge table-badge-yes">Yes</span>` 
+                        : `<span class="table-badge table-badge-no">No</span>`;
+                        
+                    tr.innerHTML = `
+                        <td style="color:var(--text-muted); font-family:'JetBrains Mono', monospace; font-size:11px;">${formattedDate}</td>
+                        <td style="font-weight:600; color:var(--text-main);">${report.facilitator || '—'}</td>
+                        <td>${report.town_village || '—'}</td>
+                        <td style="color:var(--primary); font-weight:600;">${report.month || '—'}</td>
+                        <td>${statusBadge}</td>
+                        <td style="font-weight:600; font-family:'JetBrains Mono', monospace;">${totalAttendees}</td>
+                        <td>${report.add_testimony === 'Yes' ? '✅ Yes' : '❌ No'}</td>
+                    `;
+                    tableBody.appendChild(tr);
+                });
+                
+                document.getElementById('stat-total-reports').textContent = reports.length;
+                document.getElementById('stat-meetings-held').textContent = meetingsHeld;
+                const successPct = Math.round((meetingsHeld / reports.length) * 100) || 0;
+                document.getElementById('stat-meetings-held-pct').textContent = `${successPct}% Success Rate`;
+                
+                document.getElementById('stat-total-attendees').textContent = totalMale + totalFemale;
+                document.getElementById('stat-attendees-split').textContent = `${totalMale} Male / ${totalFemale} Female`;
+                
+                document.getElementById('stat-unique-locations').textContent = uniqueLocations.size;
+                
+                // Render challenges distribution
+                const distributionList = document.getElementById('challenges-distribution-list');
+                distributionList.innerHTML = '';
+                
+                const allPossibleChallenges = [
+                    "Attendance / Punctuality issues",
+                    "Lack of learning materials / manuals",
+                    "Venue availability or bad weather",
+                    "Disinterest / low participation from members",
+                    "Transportation constraints",
+                    "Healthcare or physical health barriers",
+                    "Other"
+                ];
+                
+                const sortedChallenges = allPossibleChallenges.map(chal => {
+                    return { name: chal, count: challengeCounts[chal] || 0 };
+                }).sort((a, b) => b.count - a.count);
+                
+                const maxCount = Math.max(...sortedChallenges.map(c => c.count)) || 1;
+                
+                sortedChallenges.forEach(item => {
+                    const percentage = Math.round((item.count / maxCount) * 100);
+                    const itemEl = document.createElement('div');
+                    itemEl.className = 'challenge-chart-item';
+                    itemEl.innerHTML = `
+                        <div class="challenge-chart-label">
+                            <span style="color:var(--text-muted); font-size:12px;">${item.name}</span>
+                            <span style="font-weight:600; color:var(--primary);">${item.count}</span>
+                        </div>
+                        <div class="challenge-chart-bar-bg">
+                            <div class="challenge-chart-bar-fill" style="width: 0%;"></div>
+                        </div>
+                    `;
+                    distributionList.appendChild(itemEl);
+                    
+                    setTimeout(() => {
+                        itemEl.querySelector('.challenge-chart-bar-fill').style.width = `${percentage}%`;
+                    }, 100);
+                });
+                
+            } catch (err) {
+                tableBody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:40px; color:#ef5350;">⚠️ Failed to load database reports: ${err.message}</td></tr>`;
+            }
         }
     </script>
     

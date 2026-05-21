@@ -4,8 +4,11 @@ __pycache__/
 *.pyo
 *.pyd
 
-# Generated reports
+# Generated reports and local databases
 HFF SUPPORT GROUP REPORT FORM_Filled.docx
+HFF_Support_Group_Report_Filled.docx
+*.db
+reports.db
 
 # IDEs and environments
 .vscode/
@@ -13,3 +16,10 @@ HFF SUPPORT GROUP REPORT FORM_Filled.docx
 venv/
 env/
 .env
+
+# Supabase CLI
+.bin/
+node_modules/
+package-lock.json
+supabase/.temp/
+supabase/.branches/
