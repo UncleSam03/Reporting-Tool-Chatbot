@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Health Insights - Testimonies &amp; Impact</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #e8eaf0;
+            color: #2e3040;
+            margin: 0;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .neomorph-raised {
+            box-shadow: 6px 6px 12px rgba(0,0,0,0.08), -6px -6px 12px rgba(255,255,255,0.6);
+        }
+        .neomorph-inset {
+            box-shadow: inset 4px 4px 8px rgba(0,0,0,0.06), inset -4px -4px 8px rgba(255,255,255,0.5);
+        }
+        .neomorph-raised-interactive:active {
+            box-shadow: inset 4px 4px 8px rgba(0,0,0,0.06), inset -4px -4px 8px rgba(255,255,255,0.5);
+            transform: scale(0.98);
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e8eaf0;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            border-radius: 10px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface-variant": "#585a68",
+                        "on-error-container": "#991b1b",
+                        "inverse-primary": "#a5b4fc",
+                        "on-tertiary-container": "#3b1f63",
+                        "on-secondary-fixed": "#1a1b26",
+                        "error": "#dc2626",
+                        "tertiary-fixed": "#ede9fe",
+                        "surface-container-low": "#e5e7ed",
+                        "surface": "#e8eaf0",
+                        "tertiary-fixed-dim": "#c4b5fd",
+                        "outline-variant": "#d0d2dc",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed-variant": "#5b21b6",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-container": "#585a68",
+                        "background": "#e8eaf0",
+                        "primary": "#6366f1",
+                        "outline": "#8a8c9a",
+                        "surface-tint": "#6366f1",
+                        "surface-variant": "#dcdee4",
+                        "secondary-container": "#d8dae6",
+                        "on-primary-fixed-variant": "#4338ca",
+                        "on-primary-fixed": "#1e1b4b",
+                        "on-primary": "#ffffff",
+                        "surface-container-lowest": "#f0f2f8",
+                        "primary-fixed-dim": "#a5b4fc",
+                        "primary-container": "#818cf8",
+                        "surface-container-high": "#dcdee4",
+                        "tertiary-container": "#a78bfa",
+                        "tertiary": "#7c3aed",
+                        "on-background": "#2e3040",
+                        "on-secondary": "#ffffff",
+                        "secondary-fixed": "#d8dae6",
+                        "surface-dim": "#d4d6dc",
+                        "on-primary-container": "#e0e2ff",
+                        "error-container": "#fee2e2",
+                        "on-secondary-fixed-variant": "#404252",
+                        "secondary-fixed-dim": "#b8baca",
+                        "secondary": "#6c6e7e",
+                        "on-surface": "#2e3040",
+                        "primary-fixed": "#e0e2ff",
+                        "inverse-surface": "#2e3040",
+                        "surface-bright": "#edeef4",
+                        "inverse-on-surface": "#e8eaf0",
+                        "surface-container-highest": "#d6d8de",
+                        "surface-container": "#e2e4ea",
+                        "on-tertiary-fixed": "#2e1065"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Plus Jakarta Sans"],
+                        "display": ["Plus Jakarta Sans"],
+                        "body": ["Plus Jakarta Sans"],
+                        "label": ["Plus Jakarta Sans"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background">
+<!-- SideNavBar Shell -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-background flex flex-col p-6 gap-8 shadow-[6px_6px_12px_rgba(0,0,0,0.08),-6px_-6px_12px_rgba(255,255,255,0.6)] z-50">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl neomorph-raised flex items-center justify-center bg-background overflow-hidden">
+<img alt="Foundation logo" class="w-8 h-8 object-contain" data-alt="A clean, minimalist medical or health foundation logo featuring abstract geometric lines forming a shield or heart shape. The primary color is a soft indigo #6366f1, set against a pristine cool gray background #e8eaf0. The aesthetic is modern, professional, and corporate, with a soft neomorphic feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuByYlq7EtFcYoyKbRb8u1ATQqt6ddYjXAil1M3ZLELltXzn3v1cObqDsmYv-3NQ9OzQ0O_A-bCSQkGVf1nX005IaDJiGuvk5LeRlbEDtOYTyKQRt7rfKbYVW4mJ--F_XZRKhnuUAIKWKCCMFcrlkXoAMSRfVKqxTlPFJxergIVl7s5JfgY-7DFBND8za6Jti56ypiRtM7-9OLfRadU6JCI2vO0UKLSkL3WIOWX9eXS2Xc-gkk35VTZa6-miKjSMzaiF-j_Zj75goPXt"/>
+</div>
+<div>
+<h2 class="text-xl font-semibold text-primary">Health Insights</h2>
+<p class="text-xs text-on-surface-variant font-medium">Silk Data Reporter</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:shadow-[6px_6px_12px_rgba(0,0,0,0.08),-6px_-6px_12px_rgba(255,255,255,0.6)] transition-all duration-300" href="/dashboard">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:shadow-[6px_6px_12px_rgba(0,0,0,0.08),-6px_-6px_12px_rgba(255,255,255,0.6)] transition-all duration-300" href="/dashboard/group-metrics">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-medium">Group Metrics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-background shadow-[inset_4px_4px_8px_rgba(0,0,0,0.06),inset_-4px_-4px_8px_rgba(255,255,255,0.5)] text-primary" href="/dashboard/testimonies">
+<span class="material-symbols-outlined" data-icon="forum">forum</span>
+<span class="font-medium">Testimonies</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:shadow-[6px_6px_12px_rgba(0,0,0,0.08),-6px_-6px_12px_rgba(255,255,255,0.6)] transition-all duration-300" href="/dashboard/qualitative">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="font-medium">Qualitative Analysis</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:shadow-[6px_6px_12px_rgba(0,0,0,0.08),-6px_-6px_12px_rgba(255,255,255,0.6)] transition-all duration-300" href="/dashboard/settings">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-medium">Settings</span>
+</a>
+</nav>
+<div class="mt-auto">
+<button class="w-full py-4 px-6 rounded-xl bg-background text-primary font-bold neomorph-raised neomorph-raised-interactive flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+                New Report
+            </button>
+</div>
+</aside>
+<!-- TopNavBar Shell -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-20 bg-background flex justify-between items-center px-8 z-40 shadow-[6px_6px_12px_rgba(0,0,0,0.04)]">
+<div class="flex items-center gap-4 w-1/3">
+<div class="w-full relative">
+<div class="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</div>
+<input class="w-full bg-background neomorph-inset border-none rounded-full py-2.5 pl-12 pr-4 focus:ring-2 focus:ring-primary/20 text-on-surface placeholder:text-on-surface-variant/50" placeholder="Search testimonies..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors active:scale-95">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors active:scale-95">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+</div>
+<div class="h-8 w-[1px] bg-outline-variant"></div>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<p class="text-sm font-semibold text-on-surface">Alex Rivera</p>
+<p class="text-xs text-on-surface-variant">Field Lead</p>
+</div>
+<div class="w-10 h-10 rounded-xl neomorph-raised overflow-hidden">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="A professional headshot of a person in their late 30s with a warm and approachable expression. They are set against a minimalist, high-key studio background that matches the soft cool gray palette #e8eaf0. The lighting is diffused and soft, creating a modern, professional look that fits seamlessly into a high-end health data platform interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmJkmA9l78ydG4MzllwMnij1LqWoiKbi6tCu_QDt0TMxBoEp8H8AT6mDJBOtGnj7X4iGpa0VfARmGGPoFUsuhrXgXw_AVBx4euA44Gi-dsg2DSTvuIAwS9w7Uohzpdl8WAcZhgOvhNndjp0RigKAqWOkAbZUcY6cYaK6Xg2sxDqCH7KEdvfoN1EzpPuPbConQOv1loWYpzUf1HxgX_3U9-meGca33cn8SJr2JUGBZqMhGQozmHPkmWCM4KnPUIP77mWk3fHnnSWeIU"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-20 p-8 min-h-screen">
+<!-- Header Section -->
+<section class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<h1 class="text-3xl font-extrabold text-on-surface tracking-tight mb-2">Testimonies &amp; Impact</h1>
+<p class="text-on-surface-variant font-medium">Monitoring the human scale of our health interventions across 12 active regions.</p>
+</div>
+<!-- Filter Bar -->
+<div class="flex items-center gap-4 bg-background p-2 rounded-2xl neomorph-raised">
+<div class="flex items-center gap-2 px-4 py-2 rounded-xl neomorph-inset">
+<span class="material-symbols-outlined text-sm text-primary" data-icon="location_on">location_on</span>
+<select class="bg-transparent border-none text-sm font-semibold text-on-surface focus:ring-0 p-0 pr-8">
+<option>All Locations</option>
+<option>Eastern Province</option>
+<option>Central Valley</option>
+<option>Northern Highlands</option>
+</select>
+</div>
+<div class="flex items-center gap-2 px-4 py-2 rounded-xl neomorph-inset">
+<span class="material-symbols-outlined text-sm text-primary" data-icon="trending_up">trending_up</span>
+<select class="bg-transparent border-none text-sm font-semibold text-on-surface focus:ring-0 p-0 pr-8">
+<option>Impact Type</option>
+<option>Nutritional Health</option>
+<option>Maternal Care</option>
+<option>Water Safety</option>
+</select>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-xl neomorph-raised hover:shadow-[6px_6px_12px_rgba(0,0,0,0.08),-6px_-6px_12px_rgba(255,255,255,0.6)] active:scale-95 transition-all text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="tune">tune</span>
+</button>
+</div>
+</section>
+<!-- Bento Grid of Impact Cards -->
+<div id="testimonies-grid" class="grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-8"><!-- dynamic -->
+<!-- Impact Card 1 -->
+<div class="rounded-[2rem] p-8 neomorph-raised bg-background flex flex-col gap-6 relative overflow-hidden">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-2xl overflow-hidden neomorph-raised p-1">
+<img alt="Community Member" class="w-full h-full object-cover rounded-xl" data-alt="A portrait of an elderly community member in a vibrant rural setting, smiling with genuine warmth. The lighting is golden and natural, capturing fine textures and a sense of dignity. The background is softly blurred with hints of lush greenery and traditional local architecture, maintaining the soft cool gray and indigo color theme of the interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIEh7a__5R7jm7Lo-7HPB5trHqwHCxMsdBi4I5Tf90V_X0hMphzdkaYReyJ-6HXCLnyGQJ7FW8YiAbV3mGPFjfckLkigCMkfdugFWsjpoEvxpWzfRKzHNEXBuV7C70iqRlxB82k1dFkmmCm8y4e5LRcPSCK4OU1lr8H8ZrOansgRUKSS5Q5givBVnrfHEV69TIEKYfMEPfseapYOkPPAt-bib7p7NnaRrRcsDcGl814F69FhUJyPXChR3Tq3xD8z9iK7R9BmGT-BZ4"/>
+</div>
+<div>
+<h3 class="text-lg font-bold text-on-surface">Amara K.</h3>
+<p class="text-sm text-on-surface-variant font-medium">Eastern Province • Oct 12, 2023</p>
+</div>
+</div>
+<div class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">
+                        Nutrition Focus
+                    </div>
+</div>
+<div class="grid gap-4">
+<div class="p-4 rounded-2xl bg-surface-container-low/50 border border-white/40">
+<span class="text-[10px] font-extrabold text-on-surface-variant/60 uppercase tracking-widest block mb-2">Life Before</span>
+<p class="text-sm text-on-surface leading-relaxed">Daily struggle to provide balanced meals. Energy levels were low, affecting seasonal harvesting capabilities across the small family plot.</p>
+</div>
+<div class="p-4 rounded-2xl bg-primary/5 border-l-4 border-primary">
+<span class="text-[10px] font-extrabold text-primary uppercase tracking-widest block mb-2">Observed Changes</span>
+<p class="text-sm text-on-surface leading-relaxed">Stable weekly food supply secured. Amara reports a significant increase in physical stamina and weight gain in the younger household members.</p>
+</div>
+<div class="p-5 rounded-2xl bg-background neomorph-inset border-l-4 border-amber-400">
+<p class="italic text-on-surface font-medium leading-relaxed">"The support didn't just give us food; it gave us back our strength to work the land ourselves. Our morning table is full for the first time in years."</p>
+</div>
+</div>
+</div>
+<!-- Impact Card 2 -->
+<div class="rounded-[2rem] p-8 neomorph-raised bg-background flex flex-col gap-6 relative overflow-hidden">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-2xl overflow-hidden neomorph-raised p-1">
+<img alt="Community Member" class="w-full h-full object-cover rounded-xl" data-alt="A medium shot of a young mother holding a healthy infant in a well-lit community health center. The atmosphere is optimistic and bright, with soft, high-key lighting. The environment is clean and modern, following the silk design aesthetic with cool grays and soft lavender accents, reflecting a successful healthcare intervention story." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAygCFerhQ7ZdxwGcD2Y7JH5UUwbHM33QfhaUPDmgjHvpU3g2-yd70acovXLU8fpV2VBKubUABP1nNhiGs3XKQjCz6hky_io_7hJvlqJxGSxfmdD3_sk0gH2Di4D8RoXgrv1GMLJX74-B9g3WYJ0z-HARX9X2LOiYLiDs8asblJjStLHiRpSewNUoNZ1oz5PpHfKBLIT_tzAJWqWr5TMODDMWHLVixrIiiYzx5O4jLUZ_o2RopacgljnUx685YUF_F8FTvnLEXgfWm"/>
+</div>
+<div>
+<h3 class="text-lg font-bold text-on-surface">Lidya T.</h3>
+<p class="text-sm text-on-surface-variant font-medium">Central Valley • Nov 05, 2023</p>
+</div>
+</div>
+<div class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-tertiary/10 text-tertiary border border-tertiary/20">
+                        Maternal Care
+                    </div>
+</div>
+<div class="grid gap-4">
+<div class="p-4 rounded-2xl bg-surface-container-low/50 border border-white/40">
+<span class="text-[10px] font-extrabold text-on-surface-variant/60 uppercase tracking-widest block mb-2">Life Before</span>
+<p class="text-sm text-on-surface leading-relaxed">Limited access to prenatal screenings. Travel to the nearest clinic was an 8-hour journey on foot, leading to missed critical check-ups.</p>
+</div>
+<div class="p-4 rounded-2xl bg-primary/5 border-l-4 border-primary">
+<span class="text-[10px] font-extrabold text-primary uppercase tracking-widest block mb-2">Observed Changes</span>
+<p class="text-sm text-on-surface leading-relaxed">Mobile clinic visits every fortnight. Lidya received all 8 recommended WHO prenatal visits and delivered a healthy baby at the new hub.</p>
+</div>
+<div class="p-5 rounded-2xl bg-background neomorph-inset border-l-4 border-amber-400">
+<p class="italic text-on-surface font-medium leading-relaxed">"Seeing the mobile unit arrive in our village was like seeing hope on wheels. My son is thriving because the care came to us."</p>
+</div>
+</div>
+</div>
+<!-- Impact Card 3 -->
+<div class="rounded-[2rem] p-8 neomorph-raised bg-background flex flex-col gap-6 relative overflow-hidden">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-2xl overflow-hidden neomorph-raised p-1">
+<img alt="Community Member" class="w-full h-full object-cover rounded-xl" data-alt="A portrait of a male school teacher in a bright classroom environment, standing near a clean water filtration system. He looks confident and satisfied. The room is flooded with soft daylight, highlighting the clean, modern textures of the school interior. The color palette uses professional blues and soft grays, matching the neomorphic Silk theme." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaOZpt8RLK18hvt2abdrkdS643qNaoqaVzzO0Sjk2f_lCEvT5P-OZTzpZuwuaHfQv6MM_uGrWQp8d80OhMhCgEMNLgMxbDVAGLjkOoC45_JQag_b8L1ylUJC7toWK4_LPj8kn48IAf92TdycteEUiyMRy8h0XknFJ9YNdE-byFNuBM7Jf0BmdCUvoD18zx30ugPP9owN2H9nA4tZMWlpuvgQsU1Qaq6OKCkqecAdCndmINK54i3nuZjqZBg0gZoBUpFqgUCsbe26MS"/>
+</div>
+<div>
+<h3 class="text-lg font-bold text-on-surface">Samuel M.</h3>
+<p class="text-sm text-on-surface-variant font-medium">Northern Highlands • Sep 28, 2023</p>
+</div>
+</div>
+<div class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-on-tertiary-fixed-variant/10 text-on-tertiary-fixed-variant border border-on-tertiary-fixed-variant/20">
+                        Water Safety
+                    </div>
+</div>
+<div class="grid gap-4">
+<div class="p-4 rounded-2xl bg-surface-container-low/50 border border-white/40">
+<span class="text-[10px] font-extrabold text-on-surface-variant/60 uppercase tracking-widest block mb-2">Life Before</span>
+<p class="text-sm text-on-surface leading-relaxed">High absenteeism at the local primary school due to recurring water-borne illnesses among the student population and staff.</p>
+</div>
+<div class="p-4 rounded-2xl bg-primary/5 border-l-4 border-primary">
+<span class="text-[10px] font-extrabold text-primary uppercase tracking-widest block mb-2">Observed Changes</span>
+<p class="text-sm text-on-surface leading-relaxed">Installation of 3 communal solar-powered filtration units. Illness-related absences have dropped by 74% in the last academic quarter.</p>
+</div>
+<div class="p-5 rounded-2xl bg-background neomorph-inset border-l-4 border-amber-400">
+<p class="italic text-on-surface font-medium leading-relaxed">"The classroom is finally full again. You don't realize how much the water holds you back until it is finally clear and safe."</p>
+</div>
+</div>
+</div>
+<!-- Impact Card 4 (Asymmetric Large Card) -->
+<div class="xl:col-span-2 2xl:col-span-1 rounded-[2rem] p-8 neomorph-raised bg-background flex flex-col gap-6 relative overflow-hidden group">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-2xl overflow-hidden neomorph-raised p-1">
+<img alt="Community Member" class="w-full h-full object-cover rounded-xl" data-alt="A portrait of a smiling community health worker in a neat uniform, holding a digital tablet. She is standing outdoors in a serene, modern village square during the late afternoon. The lighting is soft and flattering, with a clear blue sky. The visual style is crisp, clean, and professional, utilizing a soft-focus background that accentuates the subject." src="https://lh3.googleusercontent.com/aida-public/AB6AXuArczcnRGRSbm-x9kB5bup2yiPCVmX2AJ4AoKHpGB22yTrpnrHtB82ypILEhPXCK1P39t3DcM-HwJOosMsU1rk8oFtYaDboWxGeYQhqnBuv1UZHaHgrVjAfEd6IqU_agGuP9sG7PtH0Fw0y9dS-rEMehSPJgYz5AsJzNdWTgFlBLKd6cprxBoRV4rb4wIQ87m_R8wC5vOStPepU4NlR_7physwfnNx1v5olbOsN6lMbyaOP-e0pamCcVyR9S_kvcT6NS4pKrtc84QOd"/>
+</div>
+<div>
+<h3 class="text-lg font-bold text-on-surface">Zoe Q.</h3>
+<p class="text-sm text-on-surface-variant font-medium">Western District • Nov 18, 2023</p>
+</div>
+</div>
+<div class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-600 border border-emerald-500/20">
+                        Field Impact
+                    </div>
+</div>
+<div class="grid gap-4 h-full">
+<div class="p-4 rounded-2xl bg-surface-container-low/50 border border-white/40">
+<span class="text-[10px] font-extrabold text-on-surface-variant/60 uppercase tracking-widest block mb-2">Life Before</span>
+<p class="text-sm text-on-surface leading-relaxed">Manual data collection on paper led to weeks of lag between detecting a local health trend and deploying resources to address it.</p>
+</div>
+<div class="p-4 rounded-2xl bg-primary/5 border-l-4 border-primary">
+<span class="text-[10px] font-extrabold text-primary uppercase tracking-widest block mb-2">Observed Changes</span>
+<p class="text-sm text-on-surface leading-relaxed">Real-time reporting via Silk Data tools allows for immediate logistics coordination. Resource wastage has been reduced by nearly 30%.</p>
+</div>
+<div class="p-5 rounded-2xl bg-background neomorph-inset border-l-4 border-amber-400 mt-auto">
+<p class="italic text-on-surface font-medium leading-relaxed">"The digital shift feels like gaining a new sense. We can see the needs of our community as they happen, not a month later."</p>
+</div>
+</div>
+</div>
+<!-- Impact Card 5 -->
+<div class="rounded-[2rem] p-8 neomorph-raised bg-background flex flex-col gap-6 relative overflow-hidden">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-2xl overflow-hidden neomorph-raised p-1">
+<img alt="Community Member" class="w-full h-full object-cover rounded-xl" data-alt="A portrait of a middle-aged male community leader with a look of quiet pride. He is standing in a newly built community kitchen. The interior is modern with clean lines and soft lighting, echoing the silk aesthetic's cool gray and lavender tones. The environment suggests progress, hygiene, and community-focused infrastructure." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVhlRbwW5hgYUh1vwTMtq7rKlyyXn4x6UwyXS81F4zNB4I7OW5ykYdxUyuI-5vqtRc0HBTv2Yz63Wekvnh3oFRQFivhfYpaycs_bWL7qzj-R9eEhr6hahVISwAvT5Ct-hrzn6M4U0XzGnu_oCyNXIeAMdCs0XOtyu4CYFgvNjc_qJvlvELzpagn-_pDOu0tEuSsDuDDmmD39vFt6acxQRfYQEprPNKnxoIwMQInNS0BxCuTMosU9ThQ0ETyhp_NxihiNg2H2hCpace"/>
+</div>
+<div>
+<h3 class="text-lg font-bold text-on-surface">Kwame B.</h3>
+<p class="text-sm text-on-surface-variant font-medium">Southern Coast • Oct 30, 2023</p>
+</div>
+</div>
+<div class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">
+                        Food Security
+                    </div>
+</div>
+<div class="grid gap-4">
+<div class="p-4 rounded-2xl bg-surface-container-low/50 border border-white/40">
+<span class="text-[10px] font-extrabold text-on-surface-variant/60 uppercase tracking-widest block mb-2">Life Before</span>
+<p class="text-sm text-on-surface leading-relaxed">High reliance on seasonal markets with volatile pricing, leading to intermittent food insecurity during lean months.</p>
+</div>
+<div class="p-4 rounded-2xl bg-primary/5 border-l-4 border-primary">
+<span class="text-[10px] font-extrabold text-primary uppercase tracking-widest block mb-2">Observed Changes</span>
+<p class="text-sm text-on-surface leading-relaxed">Community-led grain storage initiative established. 100% of households now have a reserve that lasts through the dry season.</p>
+</div>
+<div class="p-5 rounded-2xl bg-background neomorph-inset border-l-4 border-amber-400">
+<p class="italic text-on-surface font-medium leading-relaxed">"The hunger months used to be a time of fear. Now, they are just another season. We have locked the door on uncertainty."</p>
+</div>
+</div>
+</div>
+<!-- Empty State / Add Testimony Card -->
+<button class="rounded-[2rem] p-8 neomorph-raised bg-background flex flex-col items-center justify-center gap-4 border-2 border-dashed border-outline-variant/30 group hover:bg-surface-container-lowest transition-colors">
+<div class="w-20 h-20 rounded-full neomorph-inset flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-4xl" data-icon="add_circle">add_circle</span>
+</div>
+<div class="text-center">
+<h3 class="text-lg font-bold text-on-surface">Record New Testimony</h3>
+<p class="text-sm text-on-surface-variant">Capture a direct impact story from the field.</p>
+</div>
+</button>
+</div>
+</main>
+<script>
+        // Micro-interaction for Select elements to simulate neomorphic depth change
+        document.querySelectorAll('select').forEach(select => {
+            select.addEventListener('focus', () => {
+                select.parentElement.classList.remove('neomorph-inset');
+                select.parentElement.classList.add('neomorph-raised');
+            });
+            select.addEventListener('blur', () => {
+                select.parentElement.classList.remove('neomorph-raised');
+                select.parentElement.classList.add('neomorph-inset');
+            });
+        });
+
+        // Search bar interaction
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.classList.add('ring-2', 'ring-primary/20');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.classList.remove('ring-2', 'ring-primary/20');
+        });
+    </script>
+</body></html>

@@ -125,33 +125,45 @@ def save_report(session_id, answers):
 
 def get_dashboard_metrics():
     """Returns aggregated dashboard metrics, preferring Supabase when configured."""
+    reports, source = _fetch_reports()
+    import supabase_db
+    metrics = supabase_db.compute_metrics(reports)
+    metrics["source"] = source
+    return metrics
+
+
+def _fetch_reports():
     try:
         import supabase_db
         if supabase_db.is_configured():
-            return supabase_db.get_dashboard_metrics()
+            return supabase_db.get_all_reports(), "supabase"
     except Exception as e:
-        print(f"[WARN] Supabase metrics fallback to SQLite: {e}")
+        print(f"[WARN] Supabase fetch fallback to SQLite: {e}")
+    return get_all_reports(), "sqlite"
 
-    reports = get_all_reports()
-    try:
-        import supabase_db
-        metrics = supabase_db.compute_metrics(reports)
-        metrics["source"] = "sqlite"
-        return metrics
-    except Exception:
-        return {
-            "active_groups": 0,
-            "groups_trend": 0,
-            "total_attendance": 0,
-            "attendees_male": 0,
-            "attendees_female": 0,
-            "meeting_success_rate": 0,
-            "active_locations": 0,
-            "period_label": "—",
-            "reports": reports,
-            "challenges": {},
-            "source": "sqlite",
-        }
+
+def get_group_metrics():
+    reports, source = _fetch_reports()
+    import supabase_db
+    data = supabase_db.compute_group_metrics(reports)
+    data["source"] = source
+    return data
+
+
+def get_testimonies():
+    reports, source = _fetch_reports()
+    import supabase_db
+    data = supabase_db.compute_testimonies(reports)
+    data["source"] = source
+    return data
+
+
+def get_qualitative():
+    reports, source = _fetch_reports()
+    import supabase_db
+    data = supabase_db.compute_qualitative(reports)
+    data["source"] = source
+    return data
 
 
 def get_all_reports():

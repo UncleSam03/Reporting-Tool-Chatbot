@@ -37,7 +37,11 @@ python app.py
 | URL | Description |
 |-----|-------------|
 | http://127.0.0.1:5000 | WhatsApp simulator |
-| http://127.0.0.1:5000/dashboard | Admin dashboard |
+| http://127.0.0.1:5000/dashboard | Dashboard overview (from Stitch) |
+| http://127.0.0.1:5000/dashboard/group-metrics | Group metrics |
+| http://127.0.0.1:5000/dashboard/testimonies | Testimonies & impact |
+| http://127.0.0.1:5000/dashboard/qualitative | Qualitative analysis |
+| http://127.0.0.1:5000/dashboard/settings | Settings & exports |
 
 ### Optional: sample data
 

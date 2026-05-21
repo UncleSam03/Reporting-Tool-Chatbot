@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Health Insights - Group Metrics</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #e8eaf0;
+            color: #2e3040;
+            margin: 0;
+        }
+        .neomorph-raised {
+            box-shadow: 6px 6px 12px rgba(0,0,0,0.08), -6px -6px 12px rgba(255,255,255,0.6);
+        }
+        .neomorph-inset {
+            box-shadow: inset 4px 4px 8px rgba(0,0,0,0.06), inset -4px -4px 8px rgba(255,255,255,0.5);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for neomorphic feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e8eaf0;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            border-radius: 10px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-surface-variant": "#585a68",
+                      "on-error-container": "#991b1b",
+                      "inverse-primary": "#a5b4fc",
+                      "on-tertiary-container": "#3b1f63",
+                      "on-secondary-fixed": "#1a1b26",
+                      "error": "#dc2626",
+                      "tertiary-fixed": "#ede9fe",
+                      "surface-container-low": "#e5e7ed",
+                      "surface": "#e8eaf0",
+                      "tertiary-fixed-dim": "#c4b5fd",
+                      "outline-variant": "#d0d2dc",
+                      "on-error": "#ffffff",
+                      "on-tertiary-fixed-variant": "#5b21b6",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary-container": "#585a68",
+                      "background": "#e8eaf0",
+                      "primary": "#6366f1",
+                      "outline": "#8a8c9a",
+                      "surface-tint": "#6366f1",
+                      "surface-variant": "#dcdee4",
+                      "secondary-container": "#d8dae6",
+                      "on-primary-fixed-variant": "#4338ca",
+                      "on-primary-fixed": "#1e1b4b",
+                      "on-primary": "#ffffff",
+                      "surface-container-lowest": "#f0f2f8",
+                      "primary-fixed-dim": "#a5b4fc",
+                      "primary-container": "#818cf8",
+                      "surface-container-high": "#dcdee4",
+                      "tertiary-container": "#a78bfa",
+                      "tertiary": "#7c3aed",
+                      "on-background": "#2e3040",
+                      "on-secondary": "#ffffff",
+                      "secondary-fixed": "#d8dae6",
+                      "surface-dim": "#d4d6dc",
+                      "on-primary-container": "#e0e2ff",
+                      "error-container": "#fee2e2",
+                      "on-secondary-fixed-variant": "#404252",
+                      "secondary-fixed-dim": "#b8baca",
+                      "secondary": "#6c6e7e",
+                      "on-surface": "#2e3040",
+                      "primary-fixed": "#e0e2ff",
+                      "inverse-surface": "#2e3040",
+                      "surface-bright": "#edeef4",
+                      "inverse-on-surface": "#e8eaf0",
+                      "surface-container-highest": "#d6d8de",
+                      "surface-container": "#e2e4ea",
+                      "on-tertiary-fixed": "#2e1065"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.5rem",
+                      "lg": "1rem",
+                      "xl": "1.5rem",
+                      "full": "9999px"
+              },
+              "fontFamily": {
+                      "headline": ["Plus Jakarta Sans"],
+                      "display": ["Plus Jakarta Sans"],
+                      "body": ["Plus Jakarta Sans"],
+                      "label": ["Plus Jakarta Sans"]
+              }
+            },
+          }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface min-h-screen">
+<!-- SideNavBar Shell -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-background flex flex-col p-6 gap-8 shadow-[6px_6px_12px_rgba(0,0,0,0.08),-6px_-6px_12px_rgba(255,255,255,0.6)] z-50">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl neomorph-raised flex items-center justify-center bg-background">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">health_and_safety</span>
+</div>
+<div>
+<h1 class="text-xl font-semibold text-primary leading-tight">Health Insights</h1>
+<p class="text-xs text-on-surface-variant font-medium">Silk Data Reporter</p>
+</div>
+</div>
+<nav class="flex flex-col gap-4 flex-grow">
+<!-- Dashboard Tab (Inactive) -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:shadow-[6px_6px_12px_rgba(0,0,0,0.08),-6px_-6px_12px_rgba(255,255,255,0.6)] transition-all duration-300 active:scale-[0.97]" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-medium">Dashboard</span>
+</a>
+<!-- Group Metrics Tab (Active) -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-background shadow-[inset_4px_4px_8px_rgba(0,0,0,0.06),inset_-4px_-4px_8px_rgba(255,255,255,0.5)] text-primary transition-all duration-300 active:scale-[0.97]" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">analytics</span>
+<span class="font-medium">Group Metrics</span>
+</a>
+<!-- Testimonies Tab (Inactive) -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:shadow-[6px_6px_12px_rgba(0,0,0,0.08),-6px_-6px_12px_rgba(255,255,255,0.6)] transition-all duration-300 active:scale-[0.97]" href="#">
+<span class="material-symbols-outlined">forum</span>
+<span class="font-medium">Testimonies</span>
+</a>
+<!-- Qualitative Analysis Tab (Inactive) -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:shadow-[6px_6px_12px_rgba(0,0,0,0.08),-6px_-6px_12px_rgba(255,255,255,0.6)] transition-all duration-300 active:scale-[0.97]" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-medium">Qualitative Analysis</span>
+</a>
+</nav>
+<button class="neomorph-raised bg-background text-primary px-4 py-4 rounded-xl font-semibold flex items-center justify-center gap-2 hover:shadow-[8px_8px_16px_rgba(0,0,0,0.1),-8px_-8px_16px_rgba(255,255,255,0.8)] transition-all active:scale-95">
+<span class="material-symbols-outlined">add</span>
+            New Report
+        </button>
+</aside>
+<!-- Main Canvas Area -->
+<main class="ml-64 min-h-screen relative">
+<!-- TopNavBar Shell -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-20 bg-background flex justify-between items-center px-8 z-40 shadow-[6px_6px_12px_rgba(0,0,0,0.04)]">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-full max-w-md">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline">search</span>
+</div>
+<input class="w-full bg-background neomorph-inset border-none rounded-xl py-2.5 pl-10 pr-4 text-on-surface placeholder-outline focus:ring-0" placeholder="Search reports..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="w-10 h-10 rounded-xl neomorph-raised flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors active:scale-95">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="w-10 h-10 rounded-xl neomorph-raised flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors active:scale-95">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="h-8 w-px bg-surface-container mx-2"></div>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<p class="text-sm font-semibold text-on-surface leading-tight">Sarah Jenkins</p>
+<p class="text-[10px] text-on-surface-variant font-medium">Head of Research</p>
+</div>
+<img alt="User profile" class="w-10 h-10 rounded-xl neomorph-raised object-cover" data-alt="A professional headshot of a woman with a warm, confident expression. She has medium-length brown hair and is wearing a stylish blazer. The photograph is taken in a brightly lit, modern office setting with a clean, high-key aesthetic that complements the light mode UI of the application. The lighting is soft and flattering, creating a premium feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqm1B_QPLMXSbDMtS30jLST7NgwbNS-6ewMaMdnUQw3dK-RrKY2IYj6s8c1_nN-24mDb39Ivn5scXQEX3AP75J9S_3XD8Zsq46e12lnfoFdWgf-Y9MFmeg5dzspYzJvknlEWbn2jk9T1arN6eD8kbmcd1pu5_zFSKIfdILH5wZqNF6Id1GYVjUU2OeOA0WFozes_qWpOUA_CAT84kX4dgmGQKquCxHW3yJciMuXkp4mJdBczFKRSsUUifXAlP_R_97e93o6_1t0LFF"/>
+</div>
+</div>
+</header>
+<!-- Content Body -->
+<div class="pt-28 pb-12 px-8">
+<!-- Filter Section -->
+<section class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+<div>
+<h2 class="text-2xl font-bold text-on-surface tracking-tight">Group Metrics Overview</h2>
+<p class="text-on-surface-variant">Real-time attendance and success analytics per active group.</p>
+</div>
+<div class="flex flex-wrap gap-4">
+<!-- Region Filter -->
+<div class="flex items-center gap-3">
+<label class="text-sm font-semibold text-on-surface-variant">Region:</label>
+<select class="bg-background neomorph-raised border-none rounded-xl px-4 py-2 text-sm font-medium text-on-surface focus:ring-0 transition-all cursor-pointer">
+<option>All Regions</option>
+<option>Northern Province</option>
+<option>Southern Region</option>
+<option>Eastern Sector</option>
+<option>Western Territory</option>
+</select>
+</div>
+<!-- Date Range Filter -->
+<div class="flex items-center gap-3">
+<label class="text-sm font-semibold text-on-surface-variant">Date Range:</label>
+<div class="flex items-center bg-background neomorph-raised rounded-xl px-4 py-2 gap-2 cursor-pointer">
+<span class="material-symbols-outlined text-sm text-primary">calendar_today</span>
+<span class="text-sm font-medium text-on-surface">Last 6 Months</span>
+<span class="material-symbols-outlined text-sm text-outline">expand_more</span>
+</div>
+</div>
+<!-- Export Action -->
+<button class="neomorph-raised bg-background p-2.5 rounded-xl text-primary hover:text-tertiary transition-colors active:scale-95">
+<span class="material-symbols-outlined">download</span>
+</button>
+</div>
+</section>
+<!-- Top Cards / Stats -->
+<section class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+<div class="neomorph-raised bg-background p-6 rounded-2xl">
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Total Groups</p>
+<h3 class="text-3xl font-semibold text-primary">142</h3>
+<div class="flex items-center gap-1 mt-3 text-xs font-medium text-emerald-600">
+<span class="material-symbols-outlined text-xs">trending_up</span>
+<span>+12% vs last month</span>
+</div>
+</div>
+<div class="neomorph-raised bg-background p-6 rounded-2xl">
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Avg. Attendance</p>
+<h3 class="text-3xl font-semibold text-primary">84.2%</h3>
+<div class="flex items-center gap-1 mt-3 text-xs font-medium text-emerald-600">
+<span class="material-symbols-outlined text-xs">trending_up</span>
+<span>+3.5% vs last month</span>
+</div>
+</div>
+<div class="neomorph-raised bg-background p-6 rounded-2xl">
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Total Facilitators</p>
+<h3 class="text-3xl font-semibold text-primary">88</h3>
+<div class="flex items-center gap-1 mt-3 text-xs font-medium text-on-surface-variant">
+<span>4 new pending</span>
+</div>
+</div>
+<div class="neomorph-raised bg-background p-6 rounded-2xl">
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Success Rate</p>
+<h3 class="text-3xl font-semibold text-tertiary">91%</h3>
+<div class="flex items-center gap-1 mt-3 text-xs font-medium text-emerald-600">
+<span class="material-symbols-outlined text-xs">verified</span>
+<span>Quality Threshold Met</span>
+</div>
+</div>
+</section>
+<!-- Chart Section -->
+<section class="mb-10">
+<div class="neomorph-raised bg-background rounded-2xl p-8">
+<div class="flex justify-between items-start mb-8">
+<div>
+<h3 class="text-lg font-semibold text-on-surface">Attendance Trends</h3>
+<p class="text-sm text-on-surface-variant">Monthly average participation over the last 6 months</p>
+</div>
+<div class="flex gap-4">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+<span class="text-xs font-medium text-on-surface-variant">Average</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-tertiary"></span>
+<span class="text-xs font-medium text-on-surface-variant">Target (80%)</span>
+</div>
+</div>
+</div>
+<div class="relative h-64 w-full">
+<!-- Simulated Chart Grid -->
+<div class="absolute inset-0 flex flex-col justify-between">
+<div class="border-b border-surface-container-high w-full h-0"></div>
+<div class="border-b border-surface-container-high w-full h-0"></div>
+<div class="border-b border-surface-container-high w-full h-0"></div>
+<div class="border-b border-surface-container-high w-full h-0"></div>
+<div class="border-b border-surface-container-high w-full h-0"></div>
+</div>
+<!-- Simulated SVG Line Chart -->
+<svg class="absolute inset-0 w-full h-full overflow-visible" preserveaspectratio="none">
+<defs>
+<lineargradient id="chartGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#6366f1" stop-opacity="0.2"></stop>
+<stop offset="100%" stop-color="#6366f1" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<path d="M 0 180 Q 150 140 300 160 T 600 80 T 900 100 T 1200 60" fill="none" stroke="#6366f1" stroke-linecap="round" stroke-width="4"></path>
+<path d="M 0 180 Q 150 140 300 160 T 600 80 T 900 100 T 1200 60 V 256 H 0 Z" fill="url(#chartGradient)"></path>
+<!-- Target Line -->
+<line opacity="0.5" stroke="#7c3aed" stroke-dasharray="8 4" stroke-width="1" x1="0" x2="100%" y1="128" y2="128"></line>
+</svg>
+<!-- Data Points -->
+<div class="absolute top-0 left-0 w-full h-full flex justify-between items-end pb-2">
+<div class="flex flex-col items-center">
+<div class="w-3 h-3 rounded-full bg-white border-2 border-primary neomorph-raised mb-[68px]"></div>
+<span class="text-xs font-semibold text-on-surface-variant">Jan</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-3 h-3 rounded-full bg-white border-2 border-primary neomorph-raised mb-[88px]"></div>
+<span class="text-xs font-semibold text-on-surface-variant">Feb</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-3 h-3 rounded-full bg-white border-2 border-primary neomorph-raised mb-[72px]"></div>
+<span class="text-xs font-semibold text-on-surface-variant">Mar</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-3 h-3 rounded-full bg-white border-2 border-primary neomorph-raised mb-[148px]"></div>
+<span class="text-xs font-semibold text-on-surface-variant">Apr</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-3 h-3 rounded-full bg-white border-2 border-primary neomorph-raised mb-[128px]"></div>
+<span class="text-xs font-semibold text-on-surface-variant">May</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-3 h-3 rounded-full bg-white border-2 border-primary neomorph-raised mb-[168px]"></div>
+<span class="text-xs font-semibold text-on-surface-variant">Jun</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Group Metrics Table -->
+<section>
+<div class="neomorph-raised bg-background rounded-2xl overflow-hidden">
+<div class="px-8 py-6 border-b border-surface-container flex justify-between items-center bg-surface-container-lowest/50">
+<h3 class="text-lg font-semibold text-on-surface">Detailed Group Analytics</h3>
+<div class="flex gap-2">
+<button class="neomorph-raised bg-background p-2 rounded-lg text-primary active:scale-95">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+</button>
+<button class="neomorph-raised bg-background p-2 rounded-lg text-primary active:scale-95">
+<span class="material-symbols-outlined text-sm">sort</span>
+</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="text-on-surface-variant text-xs font-bold uppercase tracking-widest border-b border-surface-container">
+<th class="px-8 py-4">Group Name</th>
+<th class="px-6 py-4">Facilitator</th>
+<th class="px-6 py-4">Town</th>
+<th class="px-6 py-4">Gender Split (M/F)</th>
+<th class="px-6 py-4">Attendance</th>
+<th class="px-8 py-4 text-right">Success Rate</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<tr class="hover:bg-surface-container-lowest transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-primary-container/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-sm">groups</span>
+</div>
+<span class="font-medium text-on-surface">Sunrise Health A</span>
+</div>
+</td>
+<td class="px-6 py-5 text-on-surface-variant font-medium">David Mutua</td>
+<td class="px-6 py-5 text-on-surface-variant">Machakos</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<div class="flex -space-x-1">
+<div class="w-2 h-2 rounded-full bg-blue-400"></div>
+<div class="w-2 h-2 rounded-full bg-pink-400"></div>
+</div>
+<span class="text-sm font-medium">12 / 18</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<div class="w-24 bg-surface-container rounded-full h-2 overflow-hidden neomorph-inset">
+<div class="bg-primary h-full rounded-full" style="width: 88%"></div>
+</div>
+<span class="text-[10px] font-bold mt-1 block">88% Avg</span>
+</td>
+<td class="px-8 py-5 text-right">
+<span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold">94%</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-tertiary-container/20 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-sm">groups</span>
+</div>
+<span class="font-medium text-on-surface">Unity Circle 04</span>
+</div>
+</td>
+<td class="px-6 py-5 text-on-surface-variant font-medium">Mercy Wanjiru</td>
+<td class="px-6 py-5 text-on-surface-variant">Kiambu</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<span class="text-sm font-medium">8 / 22</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<div class="w-24 bg-surface-container rounded-full h-2 overflow-hidden neomorph-inset">
+<div class="bg-primary h-full rounded-full" style="width: 72%"></div>
+</div>
+<span class="text-[10px] font-bold mt-1 block">72% Avg</span>
+</td>
+<td class="px-8 py-5 text-right">
+<span class="px-3 py-1 rounded-full bg-amber-100 text-amber-700 text-xs font-bold">82%</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-primary-container/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-sm">groups</span>
+</div>
+<span class="font-medium text-on-surface">Mountain View</span>
+</div>
+</td>
+<td class="px-6 py-5 text-on-surface-variant font-medium">Samuel Kiprono</td>
+<td class="px-6 py-5 text-on-surface-variant">Eldoret</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<span class="text-sm font-medium">15 / 15</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<div class="w-24 bg-surface-container rounded-full h-2 overflow-hidden neomorph-inset">
+<div class="bg-primary h-full rounded-full" style="width: 95%"></div>
+</div>
+<span class="text-[10px] font-bold mt-1 block">95% Avg</span>
+</td>
+<td class="px-8 py-5 text-right">
+<span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold">98%</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-tertiary-container/20 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-sm">groups</span>
+</div>
+<span class="font-medium text-on-surface">Riverbank Reach</span>
+</div>
+</td>
+<td class="px-6 py-5 text-on-surface-variant font-medium">Grace Amina</td>
+<td class="px-6 py-5 text-on-surface-variant">Malindi</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<span class="text-sm font-medium">5 / 25</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<div class="w-24 bg-surface-container rounded-full h-2 overflow-hidden neomorph-inset">
+<div class="bg-error h-full rounded-full" style="width: 42%"></div>
+</div>
+<span class="text-[10px] font-bold mt-1 block">42% Avg</span>
+</td>
+<td class="px-8 py-5 text-right">
+<span class="px-3 py-1 rounded-full bg-red-100 text-red-700 text-xs font-bold">55%</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-primary-container/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-sm">groups</span>
+</div>
+<span class="font-medium text-on-surface">Harbor Heart</span>
+</div>
+</td>
+<td class="px-6 py-5 text-on-surface-variant font-medium">Peter Odhiambo</td>
+<td class="px-6 py-5 text-on-surface-variant">Kisumu</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<span class="text-sm font-medium">10 / 10</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<div class="w-24 bg-surface-container rounded-full h-2 overflow-hidden neomorph-inset">
+<div class="bg-primary h-full rounded-full" style="width: 82%"></div>
+</div>
+<span class="text-[10px] font-bold mt-1 block">82% Avg</span>
+</td>
+<td class="px-8 py-5 text-right">
+<span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold">90%</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination Footer -->
+<div class="px-8 py-4 flex justify-between items-center bg-surface-container-lowest/30">
+<span class="text-xs font-medium text-on-surface-variant">Showing 5 of 142 groups</span>
+<div class="flex gap-2">
+<button class="w-8 h-8 rounded-lg neomorph-raised flex items-center justify-center text-on-surface-variant disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded-lg neomorph-inset flex items-center justify-center text-primary font-bold text-xs">
+                                1
+                            </button>
+<button class="w-8 h-8 rounded-lg neomorph-raised flex items-center justify-center text-on-surface-variant font-bold text-xs">
+                                2
+                            </button>
+<button class="w-8 h-8 rounded-lg neomorph-raised flex items-center justify-center text-on-surface-variant font-bold text-xs">
+                                3
+                            </button>
+<button class="w-8 h-8 rounded-lg neomorph-raised flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Floating Action Button (FAB) Suppressed as per Task-Focused Detail Page guidance if needed, but for Dashboard screens it stays. Since this is an analysis dashboard, it is kept. -->
+<button class="fixed bottom-8 right-8 w-14 h-14 rounded-2xl bg-primary text-white shadow-xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-50">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_chart</span>
+</button>
+<script>
+        // Micro-interaction for table rows
+        document.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('mousedown', () => {
+                row.classList.add('scale-[0.99]');
+            });
+            row.addEventListener('mouseup', () => {
+                row.classList.remove('scale-[0.99]');
+            });
+        });
+
+        // Simple region filter simulation
+        const select = document.querySelector('select');
+        select.addEventListener('change', (e) => {
+            console.log(`Filtering for region: ${e.target.value}`);
+            // In a real app, this would trigger a data re-fetch or filter
+        });
+    </script>
+</body></html>

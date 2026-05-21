@@ -10,6 +10,9 @@ HFF_Support_Group_Report_Filled.docx
 *.db
 reports.db
 
+# Cursor MCP (contains env references; keep local)
+.cursor/mcp.json
+
 # IDEs and environments
 .vscode/
 .idea/
@@ -23,3 +26,4 @@ node_modules/
 package-lock.json
 supabase/.temp/
 supabase/.branches/
+stitch-screens-list.json

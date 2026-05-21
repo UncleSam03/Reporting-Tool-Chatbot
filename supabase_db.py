@@ -172,8 +172,157 @@ def _current_period_label():
     return f"Q{quarter} {now.year}"
 
 
+def _parse_challenges(report):
+    challenges = report.get("challenges") or []
+    if isinstance(challenges, str):
+        try:
+            challenges = json.loads(challenges)
+        except json.JSONDecodeError:
+            challenges = []
+    return challenges if isinstance(challenges, list) else []
+
+
+def compute_group_metrics(reports):
+    groups = {}
+    facilitators = set()
+    meetings_held = 0
+
+    for report in reports:
+        fac = (report.get("facilitator") or "Unknown").strip()
+        town = (report.get("town_village") or "Unknown").strip()
+        facilitators.add(fac)
+        key = f"{town}|{fac}".lower()
+
+        if key not in groups:
+            groups[key] = {
+                "group_name": f"{town} Support Group",
+                "facilitator": fac,
+                "town": town,
+                "male_total": 0,
+                "female_total": 0,
+                "report_count": 0,
+                "meetings_held": 0,
+            }
+
+        g = groups[key]
+        g["report_count"] += 1
+        if report.get("met_status") == "Yes":
+            g["meetings_held"] += 1
+            meetings_held += 1
+            g["male_total"] += report.get("attendees_male") or 0
+            g["female_total"] += report.get("attendees_female") or 0
+
+    group_list = []
+    for g in groups.values():
+        total_attendees = g["male_total"] + g["female_total"]
+        success_rate = (
+            round((g["meetings_held"] / g["report_count"]) * 100)
+            if g["report_count"]
+            else 0
+        )
+        attendance_pct = (
+            round((total_attendees / (g["report_count"] * 30)) * 100)
+            if g["report_count"] and total_attendees
+            else 0
+        )
+        attendance_pct = min(attendance_pct, 100)
+        group_list.append(
+            {
+                **g,
+                "total_attendees": total_attendees,
+                "success_rate": success_rate,
+                "attendance_pct": attendance_pct,
+            }
+        )
+
+    group_list.sort(key=lambda x: x["success_rate"], reverse=True)
+    total_reports = len(reports) or 1
+    overall_success = round((meetings_held / total_reports) * 100) if reports else 0
+    avg_attendance = (
+        round(
+            sum(g["attendance_pct"] for g in group_list) / len(group_list)
+        )
+        if group_list
+        else 0
+    )
+
+    return {
+        "total_groups": len(group_list),
+        "avg_attendance_pct": avg_attendance,
+        "total_facilitators": len(facilitators),
+        "success_rate": overall_success,
+        "groups": group_list,
+    }
+
+
+def compute_testimonies(reports):
+    testimonies = []
+    for report in reports:
+        if report.get("add_testimony") != "Yes":
+            continue
+        testimonies.append(
+            {
+                "facilitator": report.get("facilitator") or "—",
+                "town": report.get("town_village") or "—",
+                "month": report.get("month") or "—",
+                "before": report.get("testimony_before") or "",
+                "changes": report.get("testimony_changes") or "",
+                "affirmations": report.get("testimony_affirmations") or "",
+                "created_at": report.get("created_at"),
+            }
+        )
+    return {"testimonies": testimonies, "total": len(testimonies)}
+
+
+def compute_qualitative(reports):
+    entries = []
+    challenge_counts = {}
+
+    for report in reports:
+        challenges = _parse_challenges(report)
+        for c in challenges:
+            challenge_counts[c] = challenge_counts.get(c, 0) + 1
+
+        entries.append(
+            {
+                "facilitator": report.get("facilitator") or "—",
+                "town": report.get("town_village") or "—",
+                "month": report.get("month") or "—",
+                "challenges": challenges,
+                "challenges_other": report.get("challenges_other") or "",
+                "resolved": report.get("challenges_resolved") or "",
+                "unresolved": report.get("challenges_unresolved") or "",
+                "lessons": report.get("lessons_interesting") or "",
+                "met_status": report.get("met_status") or "—",
+            }
+        )
+
+    return {"entries": entries, "challenges": challenge_counts}
+
+
 def get_dashboard_metrics():
     reports = get_all_reports()
     metrics = compute_metrics(reports)
     metrics["source"] = "supabase"
     return metrics
+
+
+def get_group_metrics():
+    reports = get_all_reports()
+    data = compute_group_metrics(reports)
+    data["source"] = "supabase"
+    return data
+
+
+def get_testimonies():
+    reports = get_all_reports()
+    data = compute_testimonies(reports)
+    data["source"] = "supabase"
+    return data
+
+
+def get_qualitative():
+    reports = get_all_reports()
+    data = compute_qualitative(reports)
+    data["source"] = "supabase"
+    return data

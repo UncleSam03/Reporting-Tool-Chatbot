@@ -4,6 +4,7 @@ from flask import Flask, request, jsonify, send_file, render_template_string, se
 from docx import Document
 from dotenv import load_dotenv
 import database
+import dashboard_utils
 
 load_dotenv()
 
@@ -273,11 +274,37 @@ def fill_docx_report(answers):
 
 @app.route("/dashboard")
 def dashboard():
-    try:
-        with open(os.path.join(BASE_DIR, "dashboard.html"), "r", encoding="utf-8") as f:
-            return render_template_string(f.read())
-    except Exception as e:
-        return f"Error loading dashboard.html: {str(e)}", 500
+    return render_template_string(
+        dashboard_utils.render_dashboard_page("overview", "/dashboard")
+    )
+
+
+@app.route("/dashboard/group-metrics")
+def dashboard_group_metrics():
+    return render_template_string(
+        dashboard_utils.render_dashboard_page("group-metrics", "/dashboard/group-metrics")
+    )
+
+
+@app.route("/dashboard/testimonies")
+def dashboard_testimonies():
+    return render_template_string(
+        dashboard_utils.render_dashboard_page("testimonies", "/dashboard/testimonies")
+    )
+
+
+@app.route("/dashboard/qualitative")
+def dashboard_qualitative():
+    return render_template_string(
+        dashboard_utils.render_dashboard_page("qualitative", "/dashboard/qualitative")
+    )
+
+
+@app.route("/dashboard/settings")
+def dashboard_settings():
+    return render_template_string(
+        dashboard_utils.render_dashboard_page("settings", "/dashboard/settings")
+    )
 
 
 @app.route("/static/<path:filename>")
@@ -298,6 +325,21 @@ def api_config():
 def dashboard_metrics():
     """Aggregated KPIs — Supabase when configured, else SQLite."""
     return jsonify(database.get_dashboard_metrics())
+
+
+@app.route("/api/dashboard/group-metrics")
+def api_group_metrics():
+    return jsonify(database.get_group_metrics())
+
+
+@app.route("/api/dashboard/testimonies")
+def api_testimonies():
+    return jsonify(database.get_testimonies())
+
+
+@app.route("/api/dashboard/qualitative")
+def api_qualitative():
+    return jsonify(database.get_qualitative())
 
 
 @app.route("/")

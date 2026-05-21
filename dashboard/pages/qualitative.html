@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface-variant": "#585a68",
+                    "on-error-container": "#991b1b",
+                    "inverse-primary": "#a5b4fc",
+                    "on-tertiary-container": "#3b1f63",
+                    "on-secondary-fixed": "#1a1b26",
+                    "error": "#dc2626",
+                    "tertiary-fixed": "#ede9fe",
+                    "surface-container-low": "#e5e7ed",
+                    "surface": "#e8eaf0",
+                    "tertiary-fixed-dim": "#c4b5fd",
+                    "outline-variant": "#d0d2dc",
+                    "on-error": "#ffffff",
+                    "on-tertiary-fixed-variant": "#5b21b6",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-container": "#585a68",
+                    "background": "#e8eaf0",
+                    "primary": "#6366f1",
+                    "outline": "#8a8c9a",
+                    "surface-tint": "#6366f1",
+                    "surface-variant": "#dcdee4",
+                    "secondary-container": "#d8dae6",
+                    "on-primary-fixed-variant": "#4338ca",
+                    "on-primary-fixed": "#1e1b4b",
+                    "on-primary": "#ffffff",
+                    "surface-container-lowest": "#f0f2f8",
+                    "primary-fixed-dim": "#a5b4fc",
+                    "primary-container": "#818cf8",
+                    "surface-container-high": "#dcdee4",
+                    "tertiary-container": "#a78bfa",
+                    "tertiary": "#7c3aed",
+                    "on-background": "#2e3040",
+                    "on-secondary": "#ffffff",
+                    "secondary-fixed": "#d8dae6",
+                    "surface-dim": "#d4d6dc",
+                    "on-primary-container": "#e0e2ff",
+                    "error-container": "#fee2e2",
+                    "on-secondary-fixed-variant": "#404252",
+                    "secondary-fixed-dim": "#b8baca",
+                    "secondary": "#6c6e7e",
+                    "on-surface": "#2e3040",
+                    "primary-fixed": "#e0e2ff",
+                    "inverse-surface": "#2e3040",
+                    "surface-bright": "#edeef4",
+                    "inverse-on-surface": "#e8eaf0",
+                    "surface-container-highest": "#d6d8de",
+                    "surface-container": "#e2e4ea",
+                    "on-tertiary-fixed": "#2e1065"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.5rem",
+                    "lg": "1rem",
+                    "xl": "1.5rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Plus Jakarta Sans"],
+                    "display": ["Plus Jakarta Sans"],
+                    "body": ["Plus Jakarta Sans"],
+                    "label": ["Plus Jakarta Sans"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #e8eaf0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .neomorph-raised {
+            box-shadow: 6px 6px 12px rgba(0,0,0,0.08), -6px -6px 12px rgba(255,255,255,0.6);
+        }
+        .neomorph-inset {
+            box-shadow: inset 4px 4px 8px rgba(0,0,0,0.06), inset -4px -4px 8px rgba(255,255,255,0.5);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- SideNavBar Shell -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-background dark:bg-background shadow-[6px_6px_12px_rgba(0,0,0,0.08),-6px_-6px_12px_rgba(255,255,255,0.6)] z-50">
+<div class="flex flex-col h-full p-6 gap-8">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl neomorph-raised flex items-center justify-center bg-background">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">health_and_safety</span>
+</div>
+<div>
+<h1 class="text-xl font-semibold text-primary">Health Insights</h1>
+<p class="text-[10px] text-on-surface-variant tracking-wider uppercase font-bold">Silk Data Reporter</p>
+</div>
+</div>
+<nav class="flex flex-col gap-4">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:shadow-[6px_6px_12px_rgba(0,0,0,0.08),-6px_-6px_12px_rgba(255,255,255,0.6)] transition-all duration-300" href="/dashboard">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:shadow-[6px_6px_12px_rgba(0,0,0,0.08),-6px_-6px_12px_rgba(255,255,255,0.6)] transition-all duration-300" href="/dashboard/group-metrics">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-medium">Group Metrics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:shadow-[6px_6px_12px_rgba(0,0,0,0.08),-6px_-6px_12px_rgba(255,255,255,0.6)] transition-all duration-300" href="/dashboard/testimonies">
+<span class="material-symbols-outlined">forum</span>
+<span class="font-medium">Testimonies</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-background shadow-[inset_4px_4px_8px_rgba(0,0,0,0.06),inset_-4px_-4px_8px_rgba(255,255,255,0.5)] text-primary" href="/dashboard/qualitative">
+<span class="material-symbols-outlined">description</span>
+<span class="font-medium">Qualitative Analysis</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:shadow-[6px_6px_12px_rgba(0,0,0,0.08),-6px_-6px_12px_rgba(255,255,255,0.6)] transition-all duration-300" href="/dashboard/settings">
+<span class="material-symbols-outlined">settings_suggest</span>
+<span class="font-medium">Settings</span>
+</a>
+</nav>
+<div class="mt-auto">
+<button class="w-full py-4 rounded-xl neomorph-raised text-primary font-semibold active:scale-[0.97] transition-transform flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">add</span>
+                    New Report
+                </button>
+</div>
+</div>
+</aside>
+<!-- TopNavBar Shell -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-20 bg-background shadow-[6px_6px_12px_rgba(0,0,0,0.04)] z-40">
+<div class="flex justify-between items-center px-8 h-full">
+<div class="w-96">
+<div class="neomorph-inset h-11 px-4 flex items-center gap-3 rounded-xl">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full placeholder:text-on-surface-variant/50" placeholder="Search reports..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex gap-4">
+<button class="w-10 h-10 rounded-full neomorph-raised flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="w-10 h-10 rounded-full neomorph-raised flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+<div class="h-10 w-[1px] bg-outline-variant/30"></div>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<p class="text-sm font-semibold">Dr. Sarah Chen</p>
+<p class="text-[10px] text-on-surface-variant font-medium">Head Researcher</p>
+</div>
+<div class="w-10 h-10 rounded-full neomorph-raised overflow-hidden border-2 border-background">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a female healthcare researcher with glasses, smiling confidently against a soft blurred medical facility background. The lighting is bright and airy, matching a premium modern health-tech interface aesthetic with clean lines and soft shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCINk54oNfjJFGYZTK_qAbyoT-aRt8WtHDTzlvhLB8uVVxyESJdTIEQ3ApjgPOk6wXDs4Rs-HZrELQtQgnRIkLgHAN1YrkEMExzSxZSmYhrNBb46imdF8vdWDg5g18IQaZS-zepDhCOFCzxDZIMIL7gfa8J_fEnPVJf2UWcBt_inpU-jrtCpcq3YVgBVNC139VlDF57af2gocr7ZnfqbRrBvDf_EeNTKlfvRHV7izo1Xo0ZfPMzqASqGHVcO-bcbXN4gYN2dCd0PM6C"/>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="pt-28 pl-72 pr-8 pb-12 min-h-screen">
+<div class="mb-8">
+<h2 class="text-2xl font-semibold text-on-surface">Qualitative Analysis</h2>
+<p class="text-on-surface-variant">Deep dive into teacher engagement metrics and resolution feedback loops.</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left Column: Engagement Strategies & Challenges Tracker -->
+<section class="lg:col-span-7 space-y-6">
+<div class="flex items-center justify-between mb-2">
+<h3 class="text-lg font-semibold text-on-surface-variant px-2">Engagement Strategies &amp; Challenges Tracker</h3>
+<div class="neomorph-raised px-4 py-1.5 rounded-full text-xs font-medium text-primary flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                        Live Feed
+                    </div>
+</div>
+<div id="qualitative-tracker" class="space-y-6 px-2"><p class="text-sm text-on-surface-variant">Loading…</p></div>
+<div class="space-y-6 hidden" aria-hidden="true">
+<!-- Response Item 1 -->
+<div class="neomorph-raised p-6 rounded-xl bg-background hover:scale-[1.01] transition-transform duration-300">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg neomorph-inset flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">person</span>
+</div>
+<div>
+<h4 class="font-semibold text-on-surface">Marcus Holloway</h4>
+<p class="text-xs text-on-surface-variant">District Lead • 2h ago</p>
+</div>
+</div>
+<span class="px-3 py-1 rounded-full bg-background neomorph-inset text-[10px] font-bold text-tertiary uppercase tracking-wider">Strategic</span>
+</div>
+<div class="space-y-4">
+<div class="p-4 rounded-xl bg-surface-container-lowest/50">
+<p class="text-xs font-bold text-primary mb-1 uppercase tracking-tight">How do you make lessons interesting?</p>
+<p class="text-sm text-on-surface-variant leading-relaxed">"I integrate gamified elements where students earn 'health tokens' for identifying correct nutritional facts. This creates a competitive but safe environment for learning complex biological concepts."</p>
+</div>
+<div class="p-4 rounded-xl neomorph-inset">
+<p class="text-xs font-bold text-error mb-1 uppercase tracking-tight">What challenges have you encountered?</p>
+<p class="text-sm text-on-surface-variant leading-relaxed italic">"Digital divide issues. About 15% of students lack stable home internet to sync their token progress, leading to engagement drop-offs during weekends."</p>
+</div>
+</div>
+</div>
+<!-- Response Item 2 -->
+<div class="neomorph-raised p-6 rounded-xl bg-background hover:scale-[1.01] transition-transform duration-300">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg neomorph-inset flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">person</span>
+</div>
+<div>
+<h4 class="font-semibold text-on-surface">Elena Rodriguez</h4>
+<p class="text-xs text-on-surface-variant">Community Educator • 5h ago</p>
+</div>
+</div>
+<span class="px-3 py-1 rounded-full bg-background neomorph-inset text-[10px] font-bold text-primary-container uppercase tracking-wider">Pedagogical</span>
+</div>
+<div class="space-y-4">
+<div class="p-4 rounded-xl bg-surface-container-lowest/50">
+<p class="text-xs font-bold text-primary mb-1 uppercase tracking-tight">How do you make lessons interesting?</p>
+<p class="text-sm text-on-surface-variant leading-relaxed">"Storytelling through local community cases. We analyze real anonymous health outcomes from the neighborhood to make the data tangible and relevant."</p>
+</div>
+<div class="p-4 rounded-xl neomorph-inset">
+<p class="text-xs font-bold text-error mb-1 uppercase tracking-tight">What challenges have you encountered?</p>
+<p class="text-sm text-on-surface-variant leading-relaxed italic">"Resistance from some parents regarding the discussion of sensitive community data, even if it is anonymized and aggregated."</p>
+</div>
+</div>
+</div>
+<!-- Response Item 3 -->
+<div class="neomorph-raised p-6 rounded-xl bg-background hover:scale-[1.01] transition-transform duration-300 opacity-80">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg neomorph-inset flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">person</span>
+</div>
+<div>
+<h4 class="font-semibold text-on-surface">Dr. James Thorne</h4>
+<p class="text-xs text-on-surface-variant">Regional Supervisor • 1d ago</p>
+</div>
+</div>
+<span class="px-3 py-1 rounded-full bg-background neomorph-inset text-[10px] font-bold text-secondary uppercase tracking-wider">Technical</span>
+</div>
+<div class="space-y-4">
+<div class="p-4 rounded-xl bg-surface-container-lowest/50">
+<p class="text-xs font-bold text-primary mb-1 uppercase tracking-tight">How do you make lessons interesting?</p>
+<p class="text-sm text-on-surface-variant leading-relaxed">"Peer-to-peer workshops. We let the high-performing students teach mini-modules, which has increased overall retention by 40%."</p>
+</div>
+<div class="p-4 rounded-xl neomorph-inset">
+<p class="text-xs font-bold text-error mb-1 uppercase tracking-tight">What challenges have you encountered?</p>
+<p class="text-sm text-on-surface-variant leading-relaxed italic">"Standardization across multiple time zones. Maintaining consistent quality when different regions start at different times is difficult."</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Right Column: Resolution Status Log -->
+<section class="lg:col-span-5">
+<div class="neomorph-raised p-8 rounded-2xl bg-background sticky top-28 h-fit">
+<h3 class="text-lg font-semibold text-on-surface-variant mb-8 flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">history</span>
+                        Resolution Status Log
+                    </h3>
+<div class="relative space-y-12">
+<!-- Vertical Line -->
+<div class="absolute left-[19px] top-4 bottom-4 w-1 neomorph-inset rounded-full"></div>
+<!-- Timeline Item 1 -->
+<div class="relative pl-12">
+<div class="absolute left-0 top-1 w-10 h-10 rounded-full neomorph-raised bg-background flex items-center justify-center z-10">
+<span class="material-symbols-outlined text-primary text-lg">check_circle</span>
+</div>
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Today, 09:42 AM</span>
+<span class="px-2 py-0.5 rounded text-[10px] bg-tertiary-container text-on-tertiary-container font-semibold uppercase">Resolved</span>
+</div>
+<h4 class="font-semibold text-on-surface mb-2">Connectivity Offline Pack Issued</h4>
+<p class="text-sm text-on-surface-variant">Response to Marcus Holloway's challenge. We have deployed printed token trackers and USB sync drives for students with limited internet.</p>
+<div class="mt-3 flex -space-x-2">
+<div class="w-6 h-6 rounded-full border-2 border-background bg-primary flex items-center justify-center text-[8px] text-white">IT</div>
+<div class="w-6 h-6 rounded-full border-2 border-background bg-tertiary flex items-center justify-center text-[8px] text-white">Ops</div>
+</div>
+</div>
+</div>
+<!-- Timeline Item 2 -->
+<div class="relative pl-12">
+<div class="absolute left-0 top-1 w-10 h-10 rounded-full neomorph-raised bg-background flex items-center justify-center z-10">
+<span class="material-symbols-outlined text-tertiary text-lg">pending</span>
+</div>
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Yesterday</span>
+<span class="px-2 py-0.5 rounded text-[10px] bg-secondary-container text-on-secondary-container font-semibold uppercase">In Progress</span>
+</div>
+<h4 class="font-semibold text-on-surface mb-2">Community Consent Workshop</h4>
+<p class="text-sm text-on-surface-variant">Response to Elena Rodriguez. Organizing a town hall to explain data anonymization processes to parents and guardians.</p>
+</div>
+</div>
+<!-- Timeline Item 3 -->
+<div class="relative pl-12">
+<div class="absolute left-0 top-1 w-10 h-10 rounded-full neomorph-raised bg-background flex items-center justify-center z-10">
+<span class="material-symbols-outlined text-error text-lg">error</span>
+</div>
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Oct 24, 2023</span>
+<span class="px-2 py-0.5 rounded text-[10px] bg-error-container text-on-error-container font-semibold uppercase">Stalled</span>
+</div>
+<h4 class="font-semibold text-on-surface mb-2">Time Zone Sync Server</h4>
+<p class="text-sm text-on-surface-variant">Response to Dr. James Thorne. Server migration delayed due to regional compliance checks in Asia-Pacific sector.</p>
+</div>
+</div>
+<!-- Timeline Item 4 -->
+<div class="relative pl-12">
+<div class="absolute left-0 top-1 w-10 h-10 rounded-full neomorph-raised bg-background flex items-center justify-center z-10">
+<span class="material-symbols-outlined text-primary text-lg">task_alt</span>
+</div>
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Oct 22, 2023</span>
+<span class="px-2 py-0.5 rounded text-[10px] bg-tertiary-container text-on-tertiary-container font-semibold uppercase">Resolved</span>
+</div>
+<h4 class="font-semibold text-on-surface mb-2">Material Translation v2.1</h4>
+<p class="text-sm text-on-surface-variant">Update of Spanish and Mandarin pedagogical materials completed and distributed to all community educators.</p>
+</div>
+</div>
+</div>
+<button class="w-full mt-12 py-3 rounded-xl neomorph-inset text-xs font-bold text-on-surface-variant uppercase tracking-widest hover:text-primary transition-colors">
+                        View Full History Log
+                    </button>
+</div>
+</section>
+</div>
+</main>
+<script>
+        // Micro-interactions for buttons
+        document.querySelectorAll('.neomorph-raised').forEach(button => {
+            button.addEventListener('mousedown', () => {
+                button.classList.remove('neomorph-raised');
+                button.classList.add('neomorph-inset');
+            });
+            button.addEventListener('mouseup', () => {
+                button.classList.add('neomorph-raised');
+                button.classList.remove('neomorph-inset');
+            });
+            button.addEventListener('mouseleave', () => {
+                button.classList.add('neomorph-raised');
+                button.classList.remove('neomorph-inset');
+            });
+        });
+
+        // Simple parallax effect for neomorphic elements on mouse move
+        document.addEventListener('mousemove', (e) => {
+            const moveX = (e.clientX - window.innerWidth / 2) * 0.005;
+            const moveY = (e.clientY - window.innerHeight / 2) * 0.005;
+            
+            document.querySelectorAll('.neomorph-raised').forEach(el => {
+                el.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            });
+        });
+    </script>
+</body></html>
