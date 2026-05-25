@@ -1,0 +1,9 @@
+supabase/
+reports.db
+.cursor/
+scripts/
+stitch-source/
+__pycache__/
+STITCH_MCP_SETUP.md
+DESIGN.md
+VERCEL.md
