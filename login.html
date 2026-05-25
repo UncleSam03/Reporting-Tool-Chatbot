@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sign in — HFF Reporting</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          primary: "#5e60f5",
+          "primary-container": "#818cf8",
+          "on-primary": "#ffffff",
+          "on-surface": "#2e3040",
+          "on-surface-variant": "#585a68",
+          background: "#eef1f6",
+          surface: "#e8eaf0",
+          outline: "#8a8c9a",
+          error: "#dc2626",
+          tertiary: "#7c3aed",
+        },
+        fontFamily: {
+          headline: ["Plus Jakarta Sans", "sans-serif"],
+          body: ["Plus Jakarta Sans", "sans-serif"],
+        },
+        borderRadius: { "2xl": "1.5rem", "3xl": "2rem" },
+      },
+    },
+  };
+</script>
+<link href="/static/css/login.css" rel="stylesheet"/>
+</head>
+<body class="login-page bg-background text-on-surface font-body min-h-screen overflow-hidden">
+<div class="login-bg" aria-hidden="true">
+  <div class="login-orb login-orb-1"></div>
+  <div class="login-orb login-orb-2"></div>
+  <div class="login-orb login-orb-3"></div>
+</div>
+
+<div class="relative z-10 min-h-screen flex flex-col lg:flex-row">
+  <!-- Brand panel -->
+  <section class="login-brand flex-1 flex flex-col justify-center px-8 py-12 lg:px-16 lg:py-20">
+    <div class="max-w-md mx-auto lg:mx-0">
+      <div class="inline-flex items-center gap-2 neo-extruded-sm rounded-full px-4 py-2 mb-8">
+        <span class="material-symbols-outlined text-primary text-lg filled-icon">volunteer_activism</span>
+        <span class="text-label-sm font-semibold text-on-surface-variant tracking-wide uppercase">The Healthy Families Foundation</span>
+      </div>
+      <h1 class="font-headline text-4xl lg:text-5xl font-bold text-on-surface leading-tight tracking-tight">
+        Support Group<br/>
+        <span class="text-primary">Reporting Hub</span>
+      </h1>
+      <p class="mt-6 text-body-md text-on-surface-variant leading-relaxed max-w-sm">
+        Secure access to dashboards, metrics, testimonies, and exports for facilitators and administrators.
+      </p>
+      <ul class="mt-10 space-y-4 hidden sm:block">
+        <li class="flex items-center gap-3 text-sm text-on-surface-variant">
+          <span class="login-feature-icon material-symbols-outlined text-primary">analytics</span>
+          Live KPIs synced from Supabase
+        </li>
+        <li class="flex items-center gap-3 text-sm text-on-surface-variant">
+          <span class="login-feature-icon material-symbols-outlined text-primary">shield</span>
+          Encrypted sign-in for your team
+        </li>
+        <li class="flex items-center gap-3 text-sm text-on-surface-variant">
+          <span class="login-feature-icon material-symbols-outlined text-primary">chat</span>
+          WhatsApp reporting simulator
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Form panel -->
+  <section class="flex-1 flex items-center justify-center px-6 py-12 lg:px-12">
+    <div class="login-card neo-card w-full max-w-[420px]">
+      <div class="flex items-center justify-center w-14 h-14 rounded-2xl neo-extruded-sm mx-auto mb-6">
+        <span class="material-symbols-outlined text-primary text-3xl filled-icon">lock</span>
+      </div>
+      <h2 class="text-center text-2xl font-bold text-on-surface font-headline">Welcome back</h2>
+      <p class="text-center text-sm text-on-surface-variant mt-2 mb-8">Sign in to continue to the admin dashboard</p>
+
+      <div id="login-error" class="hidden mb-4 rounded-xl bg-error/10 border border-error/20 px-4 py-3 text-sm text-error flex items-start gap-2" role="alert">
+        <span class="material-symbols-outlined text-[18px] shrink-0 mt-0.5">error</span>
+        <span id="login-error-text"></span>
+      </div>
+
+      <form id="login-form" class="space-y-5" novalidate>
+        <div id="field-email-wrap">
+          <label class="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2" for="login-email">Email</label>
+          <div class="relative">
+            <span class="material-symbols-outlined login-input-icon">mail</span>
+            <input autocomplete="email" class="login-input neo-pressed w-full rounded-2xl py-3.5 pl-11 pr-4 text-sm text-on-surface placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-primary/30" id="login-email" name="email" placeholder="you@organization.org" required type="email"/>
+          </div>
+        </div>
+
+        <div id="field-password-only" class="hidden">
+          <label class="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2" for="login-password-admin">Admin password</label>
+          <div class="relative">
+            <span class="material-symbols-outlined login-input-icon">key</span>
+            <input autocomplete="current-password" class="login-input neo-pressed w-full rounded-2xl py-3.5 pl-11 pr-12 text-sm" id="login-password-admin" placeholder="Enter dashboard password" type="password"/>
+            <button class="login-toggle-pw absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-primary transition-colors" data-target="login-password-admin" type="button" aria-label="Show password">
+              <span class="material-symbols-outlined text-[20px]">visibility</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="field-password-wrap">
+          <label class="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2" for="login-password">Password</label>
+          <div class="relative">
+            <span class="material-symbols-outlined login-input-icon">lock</span>
+            <input autocomplete="current-password" class="login-input neo-pressed w-full rounded-2xl py-3.5 pl-11 pr-12 text-sm text-on-surface placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-primary/30" id="login-password" name="password" placeholder="••••••••" required type="password"/>
+            <button class="login-toggle-pw absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-primary transition-colors" data-target="login-password" type="button" aria-label="Show password">
+              <span class="material-symbols-outlined text-[20px]">visibility</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between text-sm">
+          <label class="flex items-center gap-2 cursor-pointer text-on-surface-variant">
+            <input class="rounded border-outline text-primary focus:ring-primary/30" id="login-remember" type="checkbox"/>
+            <span>Remember me</span>
+          </label>
+          <a class="text-primary font-medium hover:underline" href="#" id="link-forgot">Forgot password?</a>
+        </div>
+
+        <button class="login-submit w-full rounded-2xl py-3.5 px-6 font-semibold text-on-primary flex items-center justify-center gap-2 transition-all duration-300 disabled:opacity-60" id="btn-login" type="submit">
+          <span id="btn-login-label">Sign in</span>
+          <span class="material-symbols-outlined text-[20px] hidden animate-spin" id="btn-login-spinner">progress_activity</span>
+        </button>
+      </form>
+
+      <p class="text-center text-xs text-on-surface-variant mt-8">
+        Need the chatbot instead?
+        <a class="text-primary font-semibold hover:underline" href="/">Open simulator</a>
+      </p>
+    </div>
+  </section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/static/js/login.js"></script>
+</body>
+</html>

@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const btn = document.getElementById("btn-export-json");
     if (btn) {
         btn.addEventListener("click", async () => {
-            const res = await fetch("/api/reports");
+            const res = await fetch("/api/reports", { credentials: "same-origin" });
             const data = await res.json();
             const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
             const a = document.createElement("a");

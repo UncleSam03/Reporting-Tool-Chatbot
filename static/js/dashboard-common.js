@@ -30,13 +30,21 @@ async function fetchReports() {
             .order("created_at", { ascending: false });
         if (!error && data) return { reports: data, source: "supabase" };
     }
-    const res = await fetch("/api/reports");
+    const res = await fetch("/api/reports", { credentials: "same-origin" });
+    if (res.status === 401) {
+        window.location.href = `/login?next=${encodeURIComponent(window.location.pathname)}`;
+        return { reports: [], source: "sqlite" };
+    }
     const reports = await res.json();
     return { reports: reports || [], source: "sqlite" };
 }
 
 async function fetchJson(path) {
-    const res = await fetch(path);
+    const res = await fetch(path, { credentials: "same-origin" });
+    if (res.status === 401) {
+        window.location.href = `/login?next=${encodeURIComponent(window.location.pathname)}`;
+        throw new Error("Authentication required");
+    }
     if (!res.ok) throw new Error(`API ${path} failed`);
     return res.json();
 }

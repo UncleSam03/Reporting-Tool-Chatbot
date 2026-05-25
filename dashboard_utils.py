@@ -1,5 +1,6 @@
 """Load Stitch dashboard HTML pages and inject navigation + data scripts."""
 
+import json
 import os
 import re
 
@@ -56,13 +57,21 @@ def _inject_nav(html: str, active_href: str) -> str:
     )
 
 
-def _inject_scripts(html: str, page_key: str) -> str:
+def _inject_scripts(html: str, page_key: str, user_email: str = "") -> str:
     script = SCRIPT_BY_PAGE[page_key]
+    user_snippet = ""
+    if user_email:
+        user_snippet = (
+            f"<script>window.__dashboardUser={json.dumps(user_email)};</script>"
+        )
     block = (
-        '<div id="data-source-banner" class="hidden mx-margin-desktop mb-4 neo-pressed rounded-xl px-4 py-2 text-label-sm text-on-surface-variant"></div>'
+        user_snippet
+        + '<div id="data-source-banner" class="hidden mx-margin-desktop mb-4 neo-pressed rounded-xl px-4 py-2 text-label-sm text-on-surface-variant"></div>'
         '<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>'
+        '<script src="/static/js/dashboard-auth.js"></script>'
         '<script src="/static/js/dashboard-common.js"></script>'
         f'<script src="/static/js/{script}"></script>'
+        '<script src="/static/js/dashboard-interactivity.js"></script>'
     )
     if "</body>" in html:
         return html.replace("</body>", block + "\n</body>")
@@ -70,10 +79,17 @@ def _inject_scripts(html: str, page_key: str) -> str:
 
 
 def render_dashboard_page(page_key: str, active_href: str) -> str:
+    try:
+        from flask import session
+
+        user_email = session.get("user_email") or ""
+    except RuntimeError:
+        user_email = ""
+
     filename = FILE_BY_PAGE[page_key]
     path = os.path.join(PAGES_DIR, filename)
     with open(path, "r", encoding="utf-8") as f:
         html = f.read()
     html = _inject_nav(html, active_href)
-    html = _inject_scripts(html, page_key)
+    html = _inject_scripts(html, page_key, user_email)
     return html

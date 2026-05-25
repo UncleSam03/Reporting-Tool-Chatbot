@@ -1,5 +1,99 @@
-async function loadOverview() {
-    const data = await fetchJson("/api/dashboard/metrics");
+let overviewCache = { reports: [], source: "sqlite" };
+
+function parseQuarterLabel(label) {
+    const m = String(label || "").match(/^Q([1-4])\s+(\d{4})$/);
+    if (!m) return null;
+    return { quarter: parseInt(m[1], 10), year: parseInt(m[2], 10) };
+}
+
+function reportInQuarter(report, quarter, year) {
+    const startMonth = (quarter - 1) * 3;
+    const endMonth = startMonth + 2;
+    const created = report.created_at ? new Date(report.created_at) : null;
+    if (!created || Number.isNaN(created.getTime())) return false;
+    const y = created.getFullYear();
+    const mo = created.getMonth();
+    return y === year && mo >= startMonth && mo <= endMonth;
+}
+
+function filterReports(reports, { period, town } = {}) {
+    let filtered = reports.slice();
+    const q = parseQuarterLabel(period);
+    if (q) {
+        filtered = filtered.filter((r) => reportInQuarter(r, q.quarter, q.year));
+    }
+    if (town && town !== "All Locations") {
+        const t = town.toLowerCase();
+        filtered = filtered.filter(
+            (r) => (r.town_village || "").toLowerCase() === t
+        );
+    }
+    return filtered;
+}
+
+function computeOverviewKpis(reports) {
+    if (!reports.length) {
+        return {
+            active_groups: 0,
+            groups_trend: 0,
+            total_attendance: 0,
+            attendees_male: 0,
+            attendees_female: 0,
+            meeting_success_rate: 0,
+            active_locations: 0,
+            challenges: {},
+        };
+    }
+
+    const facilitators = new Set();
+    const locations = new Set();
+    let totalMale = 0;
+    let totalFemale = 0;
+    let meetingsHeld = 0;
+    const challengeCounts = {};
+
+    for (const report of reports) {
+        const fac = (report.facilitator || "").trim();
+        const town = (report.town_village || "").trim();
+        if (fac) facilitators.add(fac.toLowerCase());
+        if (town) locations.add(town.toLowerCase());
+
+        if (report.met_status === "Yes") {
+            meetingsHeld += 1;
+            totalMale += report.attendees_male || 0;
+            totalFemale += report.attendees_female || 0;
+        }
+
+        let challenges = report.challenges || [];
+        if (typeof challenges === "string") {
+            try {
+                challenges = JSON.parse(challenges);
+            } catch {
+                challenges = [];
+            }
+        }
+        if (Array.isArray(challenges)) {
+            for (const c of challenges) {
+                challengeCounts[c] = (challengeCounts[c] || 0) + 1;
+            }
+        }
+    }
+
+    const successRate = Math.round((meetingsHeld / reports.length) * 100);
+
+    return {
+        active_groups: facilitators.size,
+        groups_trend: 0,
+        total_attendance: totalMale + totalFemale,
+        attendees_male: totalMale,
+        attendees_female: totalFemale,
+        meeting_success_rate: successRate,
+        active_locations: locations.size,
+        challenges: challengeCounts,
+    };
+}
+
+function renderOverview(data) {
     showDataSource(data.source);
 
     const set = (id, val) => {
@@ -27,13 +121,68 @@ async function loadOverview() {
         trend.innerHTML = `<span class="material-symbols-outlined text-[14px]">${arrow}</span><span>${sign}${t} from last month</span>`;
     }
 
-    const period = document.getElementById("period-label");
-    if (period) {
-        period.innerHTML = `<span class="material-symbols-outlined text-[16px]">calendar_today</span> ${data.period_label || ""}`;
-    }
-
     renderChallenges(data.challenges || {});
     renderReportsTable(data.reports || []);
+}
+
+async function loadOverview(filters = {}) {
+    const data = await fetchJson("/api/dashboard/metrics");
+    overviewCache = {
+        reports: data.reports || [],
+        source: data.source,
+        period_label: data.period_label,
+        groups_trend: data.groups_trend,
+    };
+
+    const periodEl = document.getElementById("period-label");
+    const period =
+        filters.period ||
+        periodEl?.dataset?.selectedPeriod ||
+        data.period_label;
+    const town = filters.town;
+
+    const filtered = filterReports(overviewCache.reports, { period, town });
+    const kpis = computeOverviewKpis(filtered);
+
+    renderOverview({
+        ...kpis,
+        groups_trend: overviewCache.groups_trend,
+        source: overviewCache.source,
+        reports: filtered,
+        period_label: period,
+    });
+
+    populateLocationFilter(overviewCache.reports);
+
+    if (periodEl && (period || data.period_label)) {
+        const label = period || data.period_label;
+        periodEl.dataset.selectedPeriod = label === "All-Time" ? "" : label;
+        periodEl.innerHTML = `<span class="material-symbols-outlined text-[16px]">calendar_today</span> ${label}`;
+    }
+}
+
+function applyOverviewFilters(filters) {
+    return loadOverview(filters);
+}
+
+window.loadOverview = loadOverview;
+window.applyOverviewFilters = applyOverviewFilters;
+
+function populateLocationFilter(reports) {
+    const select = document.getElementById("select-dashboard-location");
+    if (!select) return;
+    const towns = [
+        ...new Set(
+            (reports || [])
+                .map((r) => (r.town_village || "").trim())
+                .filter(Boolean)
+        ),
+    ].sort();
+    const current = select.value;
+    select.innerHTML =
+        '<option>All Locations</option>' +
+        towns.map((t) => `<option>${escapeHtml(t)}</option>`).join("");
+    if (towns.includes(current)) select.value = current;
 }
 
 function renderChallenges(challengeCounts) {

@@ -45,11 +45,11 @@
                 "surface-variant": "#dcdee4",
                 "on-tertiary-container": "#3b1f63",
                 "primary-fixed": "#e0e2ff",
-                "primary": "#6366f1",
+                "primary": "#5e60f5",
                 "outline-variant": "#d0d2dc",
                 "inverse-surface": "#2e3040",
                 "error-container": "#fee2e2",
-                "background": "#e8eaf0",
+                "background": "#eef1f6",
                 "on-tertiary": "#ffffff",
                 "tertiary-container": "#a78bfa",
                 "on-primary-fixed-variant": "#4338ca",
@@ -58,14 +58,16 @@
                 "secondary-container": "#d8dae6",
                 "outline": "#8a8c9a",
                 "on-primary-container": "#e0e2ff",
-                "surface-tint": "#6366f1",
+                "surface-tint": "#5e60f5",
                 "on-background": "#2e3040",
-                "status-success": "#2D6A4F"
+                "status-success": "#2ecc71"
         },
         "borderRadius": {
                 "DEFAULT": "0.5rem",
                 "lg": "1rem",
                 "xl": "1.5rem",
+                "2xl": "2rem",
+                "3xl": "2.5rem",
                 "full": "9999px"
         },
         "spacing": {
@@ -98,6 +100,7 @@
 <style>
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
         }
         .filled-icon {
             font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
@@ -105,16 +108,31 @@
         
         /* Neomorphic Styles */
         .neo-extruded {
-            background: #e8eaf0;
-            box-shadow: 6px 6px 12px #c5c7cc, -6px -6px 12px #ffffff;
+            background: #eef1f6;
+            box-shadow: 6px 6px 16px rgba(166, 180, 200, 0.45), -6px -6px 16px rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.5);
         }
         .neo-extruded-sm {
-            background: #e8eaf0;
-            box-shadow: 3px 3px 6px #c5c7cc, -3px -3px 6px #ffffff;
+            background: #eef1f6;
+            box-shadow: 3px 3px 8px rgba(166, 180, 200, 0.45), -3px -3px 8px rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.5);
         }
         .neo-pressed {
-            background: #e8eaf0;
-            box-shadow: inset 4px 4px 8px #c5c7cc, inset -4px -4px 8px #ffffff;
+            background: #eef1f6;
+            box-shadow: inset 4px 4px 8px rgba(166, 180, 200, 0.45), inset -4px -4px 8px rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .neo-card {
+            background: #ffffff;
+            border-radius: 28px;
+            box-shadow: 12px 12px 28px rgba(166, 180, 200, 0.22), -12px -12px 28px rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.55);
+            padding: 28px 24px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .neo-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 16px 16px 36px rgba(166, 180, 200, 0.3), -16px -16px 36px rgba(255, 255, 255, 0.95);
         }
         
         /* Tabular lining figures for numbers */
@@ -174,24 +192,23 @@
 <!-- Main Content Wrapper -->
 <div class="flex-1 ml-64 flex flex-col min-h-screen">
 <!-- TopAppBar (from JSON) -->
-<header class="bg-surface docked full-width top-0 sticky z-40 flex justify-between items-center px-margin-desktop h-20 w-full mb-6">
+<header class="bg-transparent top-0 sticky z-40 flex justify-between items-center px-margin-desktop h-20 w-full mb-6">
 <div class="text-headline-md font-headline font-semibold text-primary">
                 Support Group Reporting
             </div>
 <div class="flex items-center gap-4">
-<button class="text-on-surface neo-extruded hover:neo-pressed transition-all p-2.5 rounded-full flex items-center justify-center">
-<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
+<button id="btn-topbar-calendar" class="text-on-surface neo-extruded hover:neo-pressed transition-all p-2.5 rounded-full flex items-center justify-center w-11 h-11" title="Calendar">
+<span class="material-symbols-outlined text-[20px]" data-icon="calendar_month">calendar_month</span>
 </button>
-<button class="text-on-surface neo-extruded hover:neo-pressed transition-all p-2.5 rounded-full flex items-center justify-center">
-<span class="material-symbols-outlined" data-icon="filter_alt">filter_alt</span>
+<button id="btn-topbar-filter" class="text-on-surface neo-extruded hover:neo-pressed transition-all p-2.5 rounded-full flex items-center justify-center w-11 h-11" title="Filter">
+<span class="material-symbols-outlined text-[20px]" data-icon="filter_alt">filter_alt</span>
 </button>
-<button class="text-on-surface neo-extruded hover:neo-pressed transition-all p-2.5 rounded-full flex items-center justify-center relative">
-<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
-<span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span>
+<button id="btn-topbar-notifications" class="text-on-surface neo-extruded hover:neo-pressed transition-all p-2.5 rounded-full flex items-center justify-center w-11 h-11 relative" title="Notifications">
+<span class="material-symbols-outlined text-[20px]" data-icon="notifications">notifications</span>
+<span id="notification-badge" class="absolute top-0 right-0 w-2.5 h-2.5 bg-error rounded-full border border-background"></span>
 </button>
-<div class="w-10 h-10 rounded-full neo-extruded overflow-hidden ml-4">
-<!-- Placeholder for Avatar -->
-<div class="w-full h-full flex items-center justify-center text-primary text-sm font-bold">AU</div>
+<div id="btn-topbar-profile" class="w-11 h-11 rounded-full neo-extruded flex items-center justify-center text-primary text-sm font-bold ml-4 cursor-pointer hover:neo-pressed transition-all" title="User Profile">
+AU
 </div>
 </div>
 </header>
@@ -203,89 +220,102 @@
 <p class="text-body-md font-body text-on-surface-variant">High-level metrics and qualitative insights across all support groups.</p>
 </div>
 <div class="flex gap-3">
-<span id="period-label" class="inline-flex items-center gap-2 text-label-sm font-label text-on-surface-variant neo-pressed px-4 py-2 rounded-xl">
+<button id="btn-period-select" class="inline-flex items-center gap-2 text-label-sm font-label text-on-surface-variant neo-extruded hover:neo-pressed px-4 py-2 rounded-xl transition-all">
 <span class="material-symbols-outlined text-[16px]">calendar_today</span>
-                        Loading…
-                    </span>
+<span id="period-label">Q3 2024</span>
+<span class="material-symbols-outlined text-[14px]">expand_more</span>
+</button>
 </div>
 </div>
 <!-- Section A: KPIs -->
 <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter mb-8">
 <!-- KPI 1 -->
-<div class="neo-extruded rounded-xl p-6 flex flex-col justify-between h-full">
-<div class="flex justify-between items-start mb-4">
-<span class="text-label-md font-label text-on-surface-variant">Total Active Groups</span>
-<div class="p-2 neo-pressed rounded-full text-primary">
-<span class="material-symbols-outlined text-[20px]">groups</span>
+<div class="neo-card flex flex-col justify-between h-56">
+<div class="flex justify-between items-start">
+<span class="text-label-md font-label text-on-surface-variant font-semibold">Total Active Groups</span>
+<div class="w-11 h-11 rounded-full neo-pressed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">groups</span>
 </div>
 </div>
 <div>
-<div id="kpi-active-groups" class="text-headline-xl font-headline text-primary tabular-nums mb-1">—</div>
-<div id="kpi-groups-trend" class="text-label-sm font-label text-status-success flex items-center gap-1">
+<div id="kpi-active-groups" class="text-headline-xl font-headline text-primary tabular-nums mb-1">42</div>
+<div id="kpi-groups-trend" class="text-label-sm font-label text-status-success flex items-center gap-1 font-semibold">
 <span class="material-symbols-outlined text-[14px]">arrow_upward</span>
-                            —
-                        </div>
+<span>+3 from last month</span>
+</div>
 </div>
 </div>
 <!-- KPI 2 -->
-<div class="neo-extruded rounded-xl p-6 flex flex-col justify-between h-full">
-<div class="flex justify-between items-start mb-4">
-<span class="text-label-md font-label text-on-surface-variant">Total Attendance</span>
-<div class="p-2 neo-pressed rounded-full text-primary">
-<span class="material-symbols-outlined text-[20px]">how_to_reg</span>
+<div class="neo-card flex flex-col justify-between h-56">
+<div class="flex justify-between items-start">
+<span class="text-label-md font-label text-on-surface-variant font-semibold">Total Attendance</span>
+<div class="w-11 h-11 rounded-full neo-pressed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">how_to_reg</span>
 </div>
 </div>
 <div>
-<div id="kpi-total-attendance" class="text-headline-xl font-headline text-primary tabular-nums mb-1">—</div>
-<div class="flex gap-3 text-label-sm font-label">
-<span id="kpi-male" class="text-secondary font-medium">— Male</span>
-<span id="kpi-female" class="text-primary font-medium">— Female</span>
+<div id="kpi-total-attendance" class="text-headline-xl font-headline text-primary tabular-nums mb-1">1,284</div>
+<div class="flex gap-3 text-label-sm font-label font-semibold">
+<span id="kpi-male" class="text-secondary font-medium">512 Male</span>
+<span id="kpi-female" class="text-primary font-medium">772 Female</span>
 </div>
 </div>
 </div>
 <!-- KPI 3 -->
-<div class="neo-extruded rounded-xl p-6 flex flex-col justify-between h-full">
-<div class="flex justify-between items-start mb-4">
-<span class="text-label-md font-label text-on-surface-variant">Meeting Success Rate</span>
-<div class="p-2 neo-pressed rounded-full text-primary">
-<span class="material-symbols-outlined text-[20px]">check_circle</span>
+<div class="neo-card flex flex-col justify-between h-56">
+<div class="flex justify-between items-start">
+<span class="text-label-md font-label text-on-surface-variant font-semibold">Meeting Success Rate</span>
+<div class="w-11 h-11 rounded-full neo-pressed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">check_circle</span>
 </div>
 </div>
 <div>
-<div id="kpi-success-rate" class="text-headline-xl font-headline text-primary tabular-nums mb-1">—</div>
-<div class="w-full neo-pressed rounded-full h-3 mt-3">
-<div id="kpi-success-bar" class="bg-primary h-3 rounded-full" style="width: 0%"></div>
+<div id="kpi-success-rate" class="text-headline-xl font-headline text-primary tabular-nums mb-1">94%</div>
+<div class="w-full neo-pressed rounded-full h-3 mt-3 overflow-hidden">
+<div id="kpi-success-bar" class="bg-primary h-3 rounded-full transition-all duration-1000" style="width: 94%"></div>
 </div>
 </div>
 </div>
 <!-- KPI 4 -->
-<div class="neo-extruded rounded-xl p-6 flex flex-col justify-between h-full">
-<div class="flex justify-between items-start mb-4">
-<span class="text-label-md font-label text-on-surface-variant">Active Locations</span>
-<div class="p-2 neo-pressed rounded-full text-primary">
-<span class="material-symbols-outlined text-[20px]">location_on</span>
+<div class="neo-card flex flex-col justify-between h-56">
+<div class="flex justify-between items-start">
+<span class="text-label-md font-label text-on-surface-variant font-semibold">Active Locations</span>
+<div class="w-11 h-11 rounded-full neo-pressed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">location_on</span>
 </div>
 </div>
 <div>
-<div id="kpi-locations" class="text-headline-xl font-headline text-primary tabular-nums mb-1">—</div>
-<div class="text-label-sm font-label text-on-surface-variant">
+<div id="kpi-locations" class="text-headline-xl font-headline text-primary tabular-nums mb-1">18</div>
+<div class="text-label-sm font-label text-on-surface-variant font-semibold">
                             Towns/Villages
                         </div>
 </div>
 </div>
 </section>
+
+<!-- Expandable Toggle Button (Keeps Overview 100% 1:1 on load, but adds great utility) -->
+<div class="flex justify-center mb-8">
+<button id="btn-toggle-details" class="neo-extruded hover:neo-pressed text-primary font-label text-label-md font-semibold py-3 px-6 rounded-xl transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" id="toggle-details-icon">expand_more</span>
+<span id="toggle-details-text">Show Detailed Logs & Challenges</span>
+</button>
+</div>
+
+<!-- Expandable Details Section -->
+<div id="details-section" class="hidden transition-all duration-500 overflow-hidden opacity-0 h-0">
 <section class="grid grid-cols-1 lg:grid-cols-3 gap-gutter mb-8">
-<div class="neo-extruded rounded-xl p-6 lg:col-span-1">
-<h2 class="text-label-md font-label text-on-surface-variant mb-4">Challenges Encountered</h2>
+<div class="neo-card lg:col-span-1">
+<h2 class="text-label-md font-label text-on-surface-variant mb-4 font-bold uppercase tracking-wider">Challenges Encountered</h2>
 <div id="challenges-list" class="space-y-4"><p class="text-label-sm text-on-surface-variant">Loading…</p></div>
 </div>
-<div class="neo-extruded rounded-xl p-6 lg:col-span-2">
-<h2 class="text-label-md font-label text-on-surface-variant mb-4">Submitted Monthly Reports</h2>
+<div class="neo-card lg:col-span-2">
+<h2 class="text-label-md font-label text-on-surface-variant mb-4 font-bold uppercase tracking-wider">Submitted Monthly Reports</h2>
 <div class="overflow-x-auto">
-<table class="w-full text-left text-sm"><thead><tr class="text-on-surface-variant text-xs uppercase"><th class="py-3 pr-4">Date</th><th class="py-3 pr-4">Facilitator</th><th class="py-3 pr-4">Town</th><th class="py-3 pr-4">Month</th><th class="py-3 pr-4">Met</th><th class="py-3 pr-4">Attendees</th><th class="py-3">Testimony</th></tr></thead><tbody id="reports-table-body"><tr><td colspan="7" class="py-8 text-center text-on-surface-variant">Loading…</td></tr></tbody></table>
+<table class="w-full text-left text-sm"><thead><tr class="text-on-surface-variant text-xs uppercase font-bold border-b border-outline-variant/30 pb-2"><th class="py-3 pr-4">Date</th><th class="py-3 pr-4">Facilitator</th><th class="py-3 pr-4">Town</th><th class="py-3 pr-4">Month</th><th class="py-3 pr-4">Met</th><th class="py-3 pr-4">Attendees</th><th class="py-3">Testimony</th></tr></thead><tbody id="reports-table-body"><tr><td colspan="7" class="py-8 text-center text-on-surface-variant">Loading…</td></tr></tbody></table>
 </div>
 </div>
 </section>
+</div>
 </main>
 </div>
 </body></html>

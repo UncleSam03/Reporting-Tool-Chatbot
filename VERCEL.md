@@ -6,7 +6,8 @@ This project deploys as a **Flask serverless** app via `@vercel/python` (`app.py
 
 | Feature | Status |
 |---------|--------|
-| **Admin dashboard** (`/dashboard`, all sub-pages) | Works when Supabase env vars are set |
+| **Login** (`/login`) | Supabase email/password or `DASHBOARD_PASSWORD` |
+| **Admin dashboard** (`/dashboard`, all sub-pages) | Requires sign-in; works when Supabase env vars are set |
 | **API metrics** (`/api/dashboard/*`) | Works with Supabase |
 | **Static assets** (`/static/*`) | Works |
 | **Health check** (`/api/health`) | Works |
@@ -20,8 +21,9 @@ In **Vercel → Project → Settings → Environment Variables**, add:
 | Variable | Notes |
 |----------|--------|
 | `SUPABASE_URL` | `https://ivhxkseutquczwoxevvu.supabase.co` |
-| `SUPABASE_ANON_KEY` | Public anon key (dashboard browser client) |
+| `SUPABASE_ANON_KEY` | Public anon key (login + dashboard browser client) |
 | `SUPABASE_SERVICE_ROLE_KEY` | Secret — server API + saving reports |
+| `FLASK_SECRET_KEY` | Random string for signed login sessions |
 
 Apply to **Production**, **Preview**, and **Development**.
 
@@ -49,8 +51,9 @@ Or connect the GitHub repo in the Vercel dashboard for automatic deploys on push
 
 ## Verify after deploy
 
-1. `https://YOUR-PROJECT.vercel.app/api/health` → `"status": "ok"`, `"supabase_configured": true`
-2. `https://YOUR-PROJECT.vercel.app/dashboard` → KPIs load from Supabase
+1. `https://YOUR-PROJECT.vercel.app/api/health` → `"status": "ok"`, `"supabase_server_configured": true`
+2. Create an admin user in **Supabase → Authentication → Users**
+3. `https://YOUR-PROJECT.vercel.app/login` → sign in, then dashboard loads KPIs from Supabase
 
 ## Local vs Vercel
 
