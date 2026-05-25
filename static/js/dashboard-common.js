@@ -25,7 +25,7 @@ async function fetchReports() {
     const client = await initSupabase();
     if (client) {
         const { data, error } = await client
-            .from("reports")
+            .from("support_group_reports")
             .select("*")
             .order("created_at", { ascending: false });
         if (!error && data) return { reports: data, source: "supabase" };

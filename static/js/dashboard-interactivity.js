@@ -144,7 +144,6 @@ function initTopbarActions() {
                 <p class="font-bold text-on-surface text-sm">Admin</p>
                 <p class="text-xs text-outline" id="profile-user-email">${displayEmail}</p>
             </div>
-            <a href="/" class="text-xs text-left px-3 py-2 rounded-xl text-on-surface-variant hover:text-primary hover:neo-pressed transition-all">Open Chatbot Simulator</a>
             <button class="text-xs text-left px-3 py-2 rounded-xl text-on-surface-variant hover:text-primary hover:neo-pressed transition-all">Export Settings</button>
             <button type="button" id="btn-sign-out" class="text-xs text-left px-3 py-2 rounded-xl text-error hover:neo-pressed transition-all mt-1">Sign Out</button>
         `;
@@ -309,59 +308,14 @@ function initNewReportModal() {
         }
     });
 
-    if (!newReportBtn) return;
-
-    // Create Modal container
-    const modalOverlay = document.createElement("div");
-    modalOverlay.id = "chatbot-modal-overlay";
-    modalOverlay.className = "fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[9999] hidden flex items-center justify-center p-4 transition-all duration-300 opacity-0";
-    
-    modalOverlay.innerHTML = `
-        <div class="relative neo-card w-full max-w-[440px] h-[780px] p-0 overflow-hidden flex flex-col scale-95 transition-transform duration-300">
-            <!-- Modal Header -->
-            <div class="px-6 py-4 flex justify-between items-center bg-slate-950 text-white z-50 shadow-md">
-                <div class="flex items-center gap-2">
-                    <span class="material-symbols-outlined text-primary text-[20px]">chat</span>
-                    <span class="font-bold text-sm tracking-wide">WhatsApp Reporting Simulator</span>
-                </div>
-                <button id="btn-close-chatbot" class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors">
-                    <span class="material-symbols-outlined text-[18px]">close</span>
-                </button>
-            </div>
-            <!-- Chatbot Iframe -->
-            <iframe src="/" class="flex-1 w-full border-none" style="height: calc(100% - 52px);"></iframe>
-        </div>
-    `;
-
-    document.body.appendChild(modalOverlay);
-
-    // Setup events
-    newReportBtn.addEventListener("click", () => {
-        modalOverlay.classList.remove("hidden");
-        setTimeout(() => {
-            modalOverlay.classList.remove("opacity-0");
-            modalOverlay.querySelector(".relative").classList.remove("scale-95");
-        }, 10);
-    });
-
-    const closeBtn = modalOverlay.querySelector("#btn-close-chatbot");
-    const closeModal = () => {
-        modalOverlay.querySelector(".relative").classList.add("scale-95");
-        modalOverlay.classList.add("opacity-0");
-        setTimeout(() => {
-            modalOverlay.classList.add("hidden");
-            
-            // Dynamic refresh of Overview dashboard numbers after completing report!
-            if (window.loadOverview) {
-                window.loadOverview().catch(e => console.error(e));
-            }
-        }, 300);
-    };
-
-    closeBtn.addEventListener("click", closeModal);
-    modalOverlay.addEventListener("click", (e) => {
-        if (e.target === modalOverlay) closeModal();
-    });
+    if (newReportBtn) {
+        const parentDiv = newReportBtn.parentElement;
+        if (parentDiv && parentDiv.classList.contains("mt-auto")) {
+            parentDiv.style.display = "none";
+        } else {
+            newReportBtn.style.display = "none";
+        }
+    }
 }
 
 /**

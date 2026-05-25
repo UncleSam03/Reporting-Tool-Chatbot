@@ -113,7 +113,7 @@ function renderChallenges(challengeCounts) {
     const max = Math.max(...items.map((i) => i.count), 1);
 
     if (!items.some((i) => i.count > 0)) {
-        list.innerHTML = `<p class="text-label-sm text-on-surface-variant">No challenge data yet. Complete reports via the chatbot.</p>`;
+        list.innerHTML = `<p class="text-label-sm text-on-surface-variant">No challenge data yet.</p>`;
         return;
     }
 
@@ -144,7 +144,6 @@ function renderReportsTable(reports) {
                 <div class="flex flex-col items-center gap-2">
                     <span class="material-symbols-outlined text-3xl">inbox</span>
                     <span class="font-medium">No reports yet</span>
-                    <span class="text-label-sm">Submit reports via the <a href="/" class="text-primary underline">chatbot simulator</a>.</span>
                 </div>
             </td></tr>`;
         return;
@@ -194,7 +193,7 @@ async function fetchViaApi() {
 
 async function fetchViaSupabase() {
     const { data, error } = await supabaseClient
-        .from("reports")
+        .from("support_group_reports")
         .select("*")
         .order("created_at", { ascending: false });
 

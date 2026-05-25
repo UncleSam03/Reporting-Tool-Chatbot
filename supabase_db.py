@@ -46,7 +46,7 @@ def _row_from_answers(session_id, answers):
         challenges = []
     return {
         "session_id": session_id,
-        "facilitator": answers.get("facilitator"),
+        "facilitator_name": answers.get("facilitator"),
         "cell_num": answers.get("cell_num"),
         "town_village": answers.get("town_village"),
         "location": answers.get("location"),
@@ -74,7 +74,7 @@ def save_report(session_id, answers):
     if not client:
         return False
     row = _row_from_answers(session_id, answers)
-    client.table("reports").upsert(row, on_conflict="session_id").execute()
+    client.table("support_group_reports").upsert(row, on_conflict="session_id").execute()
     return True
 
 
@@ -83,7 +83,7 @@ def get_all_reports():
     if not client:
         return []
     result = (
-        client.table("reports")
+        client.table("support_group_reports")
         .select("*")
         .order("created_at", desc=True)
         .execute()
@@ -134,10 +134,10 @@ def compute_metrics(reports):
     groups_last_month = set()
 
     for report in reports:
-        fac = (report.get("facilitator") or "").strip()
+        fac = (report.get("facilitator_name") or report.get("facilitator") or "").strip()
         town = (report.get("town_village") or "").strip()
         if fac:
-            facilitators.add(fac.lower())
+            facilitators.add(fac)
         if town:
             locations.add(town.lower())
 
@@ -202,7 +202,7 @@ def compute_group_metrics(reports):
     meetings_held = 0
 
     for report in reports:
-        fac = (report.get("facilitator") or "Unknown").strip()
+        fac = (report.get("facilitator_name") or report.get("facilitator") or "Unknown").strip()
         town = (report.get("town_village") or "Unknown").strip()
         facilitators.add(fac)
         key = f"{town}|{fac}".lower()
@@ -276,7 +276,7 @@ def compute_testimonies(reports):
             continue
         testimonies.append(
             {
-                "facilitator": report.get("facilitator") or "—",
+                "facilitator": report.get("facilitator_name") or report.get("facilitator") or "—",
                 "town": report.get("town_village") or "—",
                 "month": report.get("month") or "—",
                 "before": report.get("testimony_before") or "",
@@ -299,7 +299,7 @@ def compute_qualitative(reports):
 
         entries.append(
             {
-                "facilitator": report.get("facilitator") or "—",
+                "facilitator": report.get("facilitator_name") or report.get("facilitator") or "—",
                 "town": report.get("town_village") or "—",
                 "month": report.get("month") or "—",
                 "challenges": challenges,
