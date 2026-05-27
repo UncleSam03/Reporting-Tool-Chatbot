@@ -1,6 +1,6 @@
 import os
 import json
-from flask import Flask, request, jsonify, render_template_string, send_from_directory, session, redirect, url_for
+from flask import Flask, request, jsonify, render_template_string, send_from_directory, session, redirect, url_for, send_file
 from dotenv import load_dotenv
 import database
 import dashboard_utils
@@ -158,6 +158,55 @@ def get_reports():
     """Return all completed reports — Supabase when configured, else SQLite."""
     reports, _source = database._fetch_reports()
     return jsonify(reports)
+
+@app.route("/api/convert-to-mp3")
+@auth_utils.login_required
+def convert_to_mp3():
+    url = request.args.get("url")
+    if not url:
+        return "Missing url parameter", 400
+    if not url.startswith("http"):
+        return "Invalid url", 400
+
+    import requests
+    import subprocess
+    import tempfile
+    
+    try:
+        response = requests.get(url, timeout=30)
+        if response.status_code != 200:
+            return f"Failed to fetch audio file: HTTP {response.status_code}", 500
+        
+        with tempfile.NamedTemporaryFile(suffix=".ogg", delete=False) as temp_ogg:
+            temp_ogg.write(response.content)
+            ogg_path = temp_ogg.name
+
+        mp3_path = ogg_path.replace(".ogg", ".mp3")
+
+        try:
+            cmd = ["ffmpeg", "-y", "-i", ogg_path, "-codec:a", "libmp3lame", "-qscale:a", "2", mp3_path]
+            subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
+
+            filename = url.split("/")[-1].replace(".ogg", ".mp3")
+            return send_file(
+                mp3_path,
+                mimetype="audio/mpeg",
+                as_attachment=True,
+                download_name=filename
+            )
+        finally:
+            if os.path.exists(ogg_path):
+                try:
+                    os.remove(ogg_path)
+                except OSError:
+                    pass
+            if os.path.exists(mp3_path):
+                try:
+                    os.remove(mp3_path)
+                except OSError:
+                    pass
+    except Exception as e:
+        return f"Error during audio conversion: {str(e)}", 500
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
