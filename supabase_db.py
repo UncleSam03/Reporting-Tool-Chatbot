@@ -95,9 +95,10 @@ def _parse_created_at(value):
     if not value:
         return None
     if isinstance(value, datetime):
-        return value
+        return value.replace(tzinfo=None)
     try:
-        return datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+        dt = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+        return dt.replace(tzinfo=None)
     except ValueError:
         return None
 
