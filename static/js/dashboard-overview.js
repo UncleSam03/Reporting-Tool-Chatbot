@@ -211,11 +211,42 @@ function renderChallenges(challengeCounts) {
         .join("");
 }
 
+function formatLessonsInteresting(text) {
+    if (!text) return "—";
+
+    const audioRegex = /(?:\(Audio\)\s*)?(https?:\/\/[^\s"]+\.(?:ogg|mp3|wav|m4a|aac))/i;
+    const match = text.match(audioRegex);
+
+    if (match) {
+        const audioUrl = match[1];
+        let cleanText = text.replace(audioRegex, '').trim();
+        cleanText = cleanText.replace(/^["\s]+/, '').replace(/["\s]+$/, '').trim();
+
+        let html = '';
+        if (cleanText) {
+            html += `<div class="text-xs text-on-surface-variant mb-1 truncate max-w-[150px]" title="${escapeHtml(cleanText)}">"${escapeHtml(cleanText)}"</div>`;
+        }
+        html += `
+        <div class="flex items-center gap-2 max-w-[200px]">
+            <audio controls class="w-24 h-6 rounded-md outline-none" src="${escapeHtml(audioUrl)}"></audio>
+            <a href="/api/convert-to-mp3?url=${encodeURIComponent(audioUrl)}" 
+               class="neo-extruded hover:neo-pressed p-1 rounded text-primary flex items-center justify-center transition-all duration-200" 
+               title="Download MP3"
+               download>
+                <span class="material-symbols-outlined text-[12px] font-bold">download</span>
+            </a>
+        </div>`;
+        return html;
+    }
+
+    return `<div class="truncate max-w-[180px] text-xs" title="${escapeHtml(text)}">${escapeHtml(text)}</div>`;
+}
+
 function renderReportsTable(reports) {
     const tbody = document.getElementById("reports-table-body");
     if (!tbody) return;
     if (!reports.length) {
-        tbody.innerHTML = `<tr><td colspan="7" class="text-center py-8 text-on-surface-variant">No reports yet.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="8" class="text-center py-8 text-on-surface-variant">No reports yet.</td></tr>`;
         return;
     }
     tbody.innerHTML = reports
@@ -225,7 +256,7 @@ function renderReportsTable(reports) {
                 : "—";
             const total = (r.attendees_male || 0) + (r.attendees_female || 0);
             const metClass = r.met_status === "Yes" ? "text-status-success font-semibold" : "text-error font-semibold";
-            return `<tr><td class="text-on-surface-variant">${date}</td><td class="font-medium">${escapeHtml(r.facilitator)}</td><td>${escapeHtml(r.town_village)}</td><td class="text-primary font-medium">${escapeHtml(r.month)}</td><td class="${metClass}">${escapeHtml(r.met_status)}</td><td class="tabular-nums font-medium">${total}</td><td>${r.add_testimony === "Yes" ? "Yes" : "No"}</td></tr>`;
+            return `<tr><td class="text-on-surface-variant">${date}</td><td class="font-medium">${escapeHtml(r.facilitator)}</td><td>${escapeHtml(r.town_village)}</td><td class="text-primary font-medium">${escapeHtml(r.month)}</td><td class="${metClass}">${escapeHtml(r.met_status)}</td><td class="tabular-nums font-medium">${total}</td><td>${r.add_testimony === "Yes" ? "Yes" : "No"}</td><td>${formatLessonsInteresting(r.lessons_interesting)}</td></tr>`;
         })
         .join("");
 }
